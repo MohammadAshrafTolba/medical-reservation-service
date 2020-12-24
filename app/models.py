@@ -52,6 +52,8 @@ class PatientAppointment(db.Model):
 
     patient = relationship('Patient', foreign_keys=[patient_id])
     appointment = relationship('Appointment', foreign_keys=[appointment_id])
+    sickness = db.Column(db.String(120), nullable=True)
+    appointment_type = db.Column(db.String(20), nullable=False)
     
     def __repr__(self):     # This method defines how objects should be printed
         return '<Patient Appointment: patient_id: {0}, appointment_id: {1}>'.format(self.patient_id, self.appointment_id)

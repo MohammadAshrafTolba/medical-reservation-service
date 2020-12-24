@@ -34,6 +34,8 @@ print(l)
 dt = datetime.datetime(2020, 11, 29, 12, 2)     # year, month, day, hours, minutes
 #print(dt)
 appoint = Appointment(dr_id=2, start_date=dt, end_date=dt, status='free')
+dt = datetime.datetime(2020, 11, 29, 12, 6)
+appoint = Appointment(dr_id=2, start_date=dt, end_date=dt, status='free')
 db.session.add(appoint)
 db.session.commit()
 l = Appointment.query.all()
