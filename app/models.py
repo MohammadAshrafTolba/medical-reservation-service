@@ -13,6 +13,8 @@ class Patient(db.Model):
     
     id = db.Column(db.Integer, index=True, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
+    phone_number = db.Column(db.String(120))
     age = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):     # This method defines how objects should be printed
