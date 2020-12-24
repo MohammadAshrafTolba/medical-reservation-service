@@ -61,12 +61,12 @@ class PatientAppointment(db.Model):
 db.drop_all()
 db.create_all()
 
-patient1 = Patient(name="patient1", age=32)
+patient1 = Patient(name="patient1", age=32, email="patient1@gmail.com")
 #print(app.logger.info(patient1.id))
 db.session.add(patient1)
 db.session.commit()
 
-patient2 = Patient(name="patient2", age=34)
+patient2 = Patient(name="patient2", age=34, email="patient2@gmail.com")
 #print(app.logger.info(patient1.id))
 db.session.add(patient2)
 db.session.commit()
