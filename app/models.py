@@ -40,7 +40,7 @@ class Appointment(db.Model):
     dr = relationship('Doctor', foreign_keys=[dr_id])
 
     def __repr__(self):     # This method defines how objects should be printed
-        return '<appointment: id: {0}, dr_id: {1}, start_date: {2}, end_date: {3}>'.format(self.appointment_id, self.dr_id, self.start_date, self.end_date)
+        return '<appointment: id: {0}, dr_id: {1}, start_date: {2}, end_date: {3}, status: {4}>'.format(self.appointment_id, self.dr_id, self.start_date, self.end_date, self.status)
 
 class PatientAppointment(db.Model):
     __tablename__ = 'patient_appointment'
@@ -55,6 +55,7 @@ class PatientAppointment(db.Model):
         return '<Patient Appointment: patient_id: {0}, appointment_id: {1}>'.format(self.patient_id, self.appointment_id)
 
 
+"""
 db.drop_all()
 db.create_all()
 
@@ -90,3 +91,4 @@ db.session.add(appoint)
 db.session.commit()
 l = Appointment.query.all()
 print(l)
+"""
