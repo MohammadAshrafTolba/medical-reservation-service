@@ -2,10 +2,9 @@
 This file is for creating the database tables using sqlalchemy object 'db'
 """
 
-from init_app import db, app
-from sqlalchemy import ForeignKey,  DateTime
+from init_app import db, app, ma
+from sqlalchemy import ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-import datetime
 
 
 class Patient(db.Model):
@@ -49,11 +48,20 @@ class PatientAppointment(db.Model):
 
     patient_id = db.Column(db.Integer, ForeignKey('patient.id'), nullable=False, primary_key=True)
     appointment_id = db.Column(db.Integer, ForeignKey('appointment.appointment_id'), nullable=False, primary_key=True)
+    sickness = db.Column(db.String(120), nullable=True)
+    appointment_type = db.Column(db.String(20), nullable=False)
 
     patient = relationship('Patient', foreign_keys=[patient_id])
     appointment = relationship('Appointment', foreign_keys=[appointment_id])
-    sickness = db.Column(db.String(120), nullable=True)
-    appointment_type = db.Column(db.String(20), nullable=False)
     
     def __repr__(self):     # This method defines how objects should be printed
         return '<Patient Appointment: patient_id: {0}, appointment_id: {1}>'.format(self.patient_id, self.appointment_id)
+
+class AppointmentSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Appointment
+
+class PatientAppointmentSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = PatientAppointment
+

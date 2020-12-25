@@ -1,3 +1,6 @@
 flask
 flask_restful
 flask_sqlalchemy
+marshmallow
+flask-marshmallow
+marshmallow-sqlalchemy
