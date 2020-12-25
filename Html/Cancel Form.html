@@ -1,0 +1,122 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!--    <title>Normal-From</title>-->
+        <link rel="stylesheet" href="../Css/Cancel%20From.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="wrapper">
+                <img class="image" src="../imgs/WhatsApp%20Image%202020-12-24%20at%207.50.50%20PM.jpeg">
+                <ul class="nav-links">
+                    <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+                    <li><a href="./Home.html">Home</a></li>
+                    <li>
+                        <a href="#" class="desktop-item">Creation</a>
+
+                        <label for="showDrop" class="mobile-item">Creation</label>
+                        <ul class="drop-menu">
+                            <li><a href="UrgentCreation.html">Urgent From</a></li>
+                            <li><a href="NormalCreation.html">Normal Form</a></li>
+
+                        </ul>
+                    </li>
+                    <li><a href="#">Update</a></li>
+                    <li><a href="./Cancel%20Form.html">Cancel</a></li>
+
+
+                </ul>
+                <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+            </div>
+        </nav>
+    </header>
+
+    <div class="a">
+        <h1 style="color:#161616;" ;>
+            CANCEL APPOINTMENT
+        </h1>
+
+        <div class="form" id="cancelForm">
+            <form> <br> <br>
+                <label for="appointment" style="font-size:20px; color: white"><b> Choose An Appointment:</b></label>
+                <br> <br>
+                <select style="width:200px;">
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                </select>
+                <br><br><br><br><br><br><br><br><br><br><br>
+                <input type="submit" id="submit" value="Cancel Appointment" style="width: 200px; background-color: #FA8072; color: white; padding: 14px 40px;">
+            </form>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="modalText"></p>
+        </div>
+
+    </div>
+
+    <script>
+        //prevent submit from refreshing
+        var form = document.getElementById("cancelForm");
+
+        function handleForm(event) {
+            event.preventDefault();
+        }
+        form.addEventListener('submit', handleForm);
+
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("submit");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        var modalText = document.getElementById("modalText");
+
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            //todo make cancel request
+            modalText.textContent = "blablabla, redirecting in 3 seconds...";
+            modal.style.display = "block";
+            setTimeout(function() {
+                //todo redirect to homepage instead of refreshing
+                window.location.href = "./home.html";
+            }, 3000);
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
