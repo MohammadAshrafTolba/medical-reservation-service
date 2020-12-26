@@ -34,7 +34,7 @@ class Doctor(db.Model):
     
     id = db.Column(db.Integer, unique=True, index=True, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
-    specialization = db.Column(db.Integer, nullable=False)
+    specialization = db.Column(db.String(20), nullable=False)
 
     def __repr__(self):     # This method defines how objects should be printed
         return '<doctor: id: {0}, name: {1}, specialization: {2}>'.format(self.id, self.name, self.specialization)
@@ -66,7 +66,7 @@ class PatientAppointment(db.Model):
 
     patient_id = db.Column(db.Integer, ForeignKey('patient.id'), nullable=False, primary_key=True)
     appointment_id = db.Column(db.Integer, ForeignKey('appointment.appointment_id'), nullable=False, primary_key=True)
-    sickness = db.Column(db.String(120), nullable=True)
+    specialization = db.Column(db.String(20), nullable=True)
     appointment_type = db.Column(db.String(20), nullable=False)
 
     patient = relationship('Patient', foreign_keys=[patient_id])

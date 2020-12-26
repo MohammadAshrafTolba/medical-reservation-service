@@ -25,7 +25,7 @@ dr1 = Doctor(name='mark', specialization='dentist')
 db.session.add(dr1)
 db.session.commit()
 
-dr2 = Doctor(name='andy', specialization='not dentist')
+dr2 = Doctor(name='andy', specialization='cardiologist')
 db.session.add(dr2)
 db.session.commit()
 
