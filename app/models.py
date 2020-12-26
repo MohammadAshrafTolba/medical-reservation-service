@@ -7,7 +7,7 @@ from sqlalchemy import ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 
 
-specializations = ['dentistry', 'dermatology']
+specializations = ['dentist', 'dermatologist', 'cardiologist']
 
 class Patient(db.Model):
     """
