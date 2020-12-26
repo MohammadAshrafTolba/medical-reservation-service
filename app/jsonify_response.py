@@ -10,11 +10,11 @@ def appointment_jsonify(appointments):
 
     return {'data' : json_response}
 
-def patient_appointments_jsonify(appointments):
-    if appointments is None or len(appointments) == 0:
+def patient_appointments_jsonify(p_appointments):
+    if appointments is None or len(p_appointments) == 0:
         return {'data' : 'none'}
 
     patient_appointments_schema = pa_schema(many=True)
-    json_response = patient_appointments_schema.dump(appointments)
+    json_response = patient_appointments_schema.dump(p_appointments)
 
     return {'data' : json_response}

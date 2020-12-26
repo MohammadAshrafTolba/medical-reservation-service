@@ -27,7 +27,7 @@ class AppointmentHandler:
         return       : list of all free appointments (can be null if no free appointments found)
         """
 
-        free_appointments = db.session.query(Appointment).all()
+        free_appointments = db.session.query(Appointment).filter(Appointment.status == "free")
         return free_appointments
 
     def get_specific_doctor_free_appointments(self, dr_id):
@@ -100,7 +100,6 @@ class AppointmentHandler:
                                                                           Appointment.status == 'free').order_by(extract('minute', Appointment.start_date)).first()
         
         return nearest_todays_appointment
-
 
 
 # basic testing before moving to the testing team

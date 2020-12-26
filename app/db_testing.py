@@ -52,14 +52,14 @@ print('---appoints---')
 for appoint in appoints:
     print(appoint)
 
-p_appointment1 = PatientAppointment(patient_id=2, appointment_id=1, sickness="cold", appointment_type="normal")
-db.session.add(p_appointment1)
-db.session.commit()
-p_appoints = PatientAppointment.query.all()
+#p_appointment1 = PatientAppointment(patient_id=2, appointment_id=1, sickness="cold", appointment_type="normal")
+#db.session.add(p_appointment1)
+#db.session.commit()
+#p_appoints = PatientAppointment.query.all()
 
-print('---p appoints---')
-for appoint in p_appoints:
-    print(appoint)
+#print('---p appoints---')
+#for appoint in p_appoints:
+#    print(appoint)
 
 now = datetime.now()
 
@@ -76,5 +76,4 @@ appoints = Appointment.query.all()
 print('---appoints again---')
 for appoint in appoints:
     print(appoint)
-
 """

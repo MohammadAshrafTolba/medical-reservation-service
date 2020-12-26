@@ -7,6 +7,8 @@ from sqlalchemy import ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 
 
+specializations = ['dentistry', 'dermatology']
+
 class Patient(db.Model):
     """
     brief : db table for storing patients' data
