@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <!--    <title>Normal-From</title>-->
-        <link rel="stylesheet" href="../Css/Cancel%20From.css">
+    <link rel="stylesheet" href="../Css/Cancel%20From.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 
@@ -45,15 +45,15 @@
             <form> <br> <br>
                 <label for="appointment" style="font-size:20px; color: white"><b> Choose An Appointment:</b></label>
                 <br> <br>
-                <select style="width:200px;">
+                <select style="width:200px;" id="dropdown">
+                    <!--<option></option>
                     <option></option>
                     <option></option>
                     <option></option>
                     <option></option>
                     <option></option>
                     <option></option>
-                    <option></option>
-                    <option></option>
+                    <option></option>-->
                 </select>
                 <br><br><br><br><br><br><br><br><br><br><br>
                 <input type="submit" id="submit" value="Cancel Appointment" style="width: 200px; background-color: #FA8072; color: white; padding: 14px 40px;">
@@ -81,6 +81,60 @@
         }
         form.addEventListener('submit', handleForm);
 
+        // Get appointments request
+        window.onload = function() {
+            //todo patientId?
+            var patientId = "1";
+//            getAppointments(patientId);
+            mockGetAppointments();
+        };
+
+        var dropdownList = document.getElementById("dropdown");
+
+
+        mockGetAppointments = function() {
+            var opt = document.createElement('option');
+            opt.appendChild(document.createTextNode('appointment 1'));
+            opt.value = 'appointment 1';
+            dropdownList.appendChild(opt);
+        }
+
+
+        /* *
+         * @brief        : sends post request to get appointments
+         * @param        : patientId
+         * @constrant    : none
+         * @throws       : none
+         * @return       : none
+         * */
+        getAppointments = function(patientId) {
+            var xhr = new XMLHttpRequest();
+            var url = "/patient_appointments";
+
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    if (json.data != 'none') {
+                        var appendData = "";
+                        for (var i in json.data) {
+                            var opt = document.createElement('option');
+                            opt.appendChild(document.createTextNode(json.data[i].appointment_id));
+                            opt.value = json.data[i].appointment_id;
+                            dropdownList.appendChild(opt);
+                        }
+                    }
+                }
+            };
+
+            var data = JSON.stringify({
+                "patient_id": patientId
+            });
+            xhr.send(data);
+        }
+
+
         // Get the modal
         var modal = document.getElementById("myModal");
 
@@ -92,26 +146,78 @@
 
         var modalText = document.getElementById("modalText");
 
-        // When the user clicks the button, open the modal 
-        btn.onclick = function() {
-            //todo make cancel request
-            modalText.textContent = "blablabla, redirecting in 3 seconds...";
+        /* *
+         * @brief        : sends post request to cancel appointments
+         * @param        : none 
+         * @inputs       : patientId , appointmentId
+         * @constrant    : none
+         * @throws       : none
+         * @return       : none
+         * */
+
+
+        sendCancelRequest = function() {
+            var xhr1 = new XMLHttpRequest();
+            var url1 = "/cancel_appointment";
+            xhr1.open("POST", url1, true);
+            xhr1.setRequestHeader("Content-Type", "application/json");
+            xhr1.onreadystatechange = function() {
+                if (xhr1.readyState === 4 && xhr1.status === 200) {
+                    var json = JSON.parse(xhr1.responseText);
+                    //todo json.data
+                    if (json.data != 'none') {
+                        var res = json.data;
+                        modalText.textContent = res;
+                        modal.style.display = "block";
+                        setTimeout(function() {
+                            window.location.href = "./home.html";
+                        }, 4000);
+                    }
+                }
+            }
+
+
+
+            //todo change patientId
+            var patientId = 1
+            var appointmentId = dropdownList.options[dropdownList.selectedIndex].text;
+
+            var data = JSON.stringify({
+                "patient_id": patientId,
+                "appointment_id": appointmentId
+            });
+
+            xhr1.send(data);
+
+        }
+
+
+        mockCancelRequest = function() {
+            var appointmentId = dropdownList.options[dropdownList.selectedIndex].text;
+            modalText.textContent = appointmentId + " has been cancelled. redirecting in 4 seconds...";
             modal.style.display = "block";
             setTimeout(function() {
-                //todo redirect to homepage instead of refreshing
                 window.location.href = "./home.html";
-            }, 3000);
+            }, 4000);
         }
 
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+
+            //            sendCancelRequest();
+            mockCancelRequest();
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
                 modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
             }
         }
 
