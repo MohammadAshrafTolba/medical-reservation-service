@@ -1,8 +1,11 @@
 """
 This file is for creating the database tables using sqlalchemy object 'db'
 """
+import sys
+sys.path.append('.')
 
-from AppSrc.init_app import db, app, ma
+
+from init_app import db, app, ma
 from sqlalchemy import ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 

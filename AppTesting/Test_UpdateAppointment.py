@@ -1,8 +1,12 @@
+import sys
+sys.path.append('.')
+sys.path.append('../app/')
+
 import unittest
 from mock import patch, Mock
 
-from AppSrc.appointment_handler import AppointmentHandler
-from AppSrc.patient_appointment_handler import PatientAppointmentHandler
+from app.appointment_handler import AppointmentHandler
+from app.patient_appointment_handler import PatientAppointmentHandler
 
 
 class TestUpdateAppointment(unittest.TestCase):
@@ -39,7 +43,7 @@ class TestUpdateAppointment(unittest.TestCase):
         Test for Normal Update
         Create Normal Appointment and update it "Check For Function Return Values"
         """
-
+        
         bRet = self.pHandler.create_normal_appointment(self.PatientID, self.AppointmentID, self.Spec)
         self.assertEqual(bRet, True)
 

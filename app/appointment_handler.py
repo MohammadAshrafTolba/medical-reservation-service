@@ -1,5 +1,9 @@
-from AppSrc.models import Appointment
-from AppSrc.init_app import db, app
+import sys
+sys.path.append('.')
+sys.path.append('../')
+
+from models import Appointment
+from init_app import db, app
 from flask import jsonify
 from datetime import datetime
 from sqlalchemy.sql import extract
