@@ -1,10 +1,14 @@
-from AppSrc.models import Appointment
-from AppSrc.init_app import db, app
+from models import Appointment
+from init_app import db, app
 from flask import jsonify
 from datetime import datetime
 from sqlalchemy.sql import extract
 
 class AppointmentHandler:
+
+    def appointment_exists(self, appointment_id):
+        exists = db.session.query(Appointment).filter(Appointment.appointment_id == appointment_id).scalar() is not None
+        return exists
 
     def get_appointment_by_id(self, appointment_id):
         """
@@ -39,7 +43,7 @@ class AppointmentHandler:
         return       : list of the dr's free appointments (can be null if no free appointments found for this dr)
         """
 
-        free_appointments = db.session.query(Appointment).filter(Appointment.status == 'free', Appointment.dr_id == dr_id)
+        free_appointments = db.session.query(Appointment).filter(Appointment.status == 'free', Appointment.dr_id == dr_id).all()
         return free_appointments
 
     def change_appointment_status(self, appointment_id):
@@ -100,11 +104,6 @@ class AppointmentHandler:
                                                                           Appointment.status == 'free').order_by(extract('minute', Appointment.start_date)).first()
         
         return nearest_todays_appointment
-
-if __name__ == '__main__':
-    o = AppointmentHandler()
-    print(o.get_nearest_appointment())
-    print(o.get_nearest_appointment())
 
 # basic testing before moving to the testing team
 """

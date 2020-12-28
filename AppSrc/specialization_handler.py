@@ -1,4 +1,4 @@
-from AppSrc.models import specializations
+from models import specializations
 
 
 class SpecializationHandler:
