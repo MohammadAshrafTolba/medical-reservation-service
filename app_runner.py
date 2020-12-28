@@ -1,4 +1,4 @@
-from app.init_app import app
 
+from AppSrc.init_app import app
 
 app.run(debug=True)
