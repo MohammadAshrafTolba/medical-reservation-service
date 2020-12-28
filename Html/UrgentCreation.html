@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Urgent-From</title>
+    <link rel="stylesheet" href="../../static/Css/UrgentCreation.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="wrapper">
+                <img class="image" src="../../static/imgs/WhatsApp%20Image%202020-12-24%20at%207.50.50%20PM.jpeg">
+                <ul class="nav-links">
+                    <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="#" class="desktop-item">Creation</a>
+
+                        <label for="showDrop" class="mobile-item">Creation</label>
+                        <ul class="drop-menu">
+                            <li><a href="UrgentCreation.html">Urgent From</a></li>
+                            <li><a href="NormalCreation.html">Normal Form</a></li>
+
+                        </ul>
+                    </li>
+                    <li><a href="#">Update</a></li>
+                    <li><a href="#">Cancel</a></li>
+
+
+                </ul>
+                <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="Urgent-appointment ">
+        <h1>Urgent appointment </h1>
+    </div>
+    <form>
+        <div class="form-1">
+            <input type="text" placeholder="First Name for patient" class="in" required>
+            <br>
+            <br>
+            <input type="text" placeholder="Last Name for patient" class="in" required>
+            <br>
+            <br>
+            <input type="number" placeholder="Patient age" class="in" required> 
+            <br>
+            <br>
+         <h6 class="Date">Illness Specification</h6>
+
+            <select class="Illness" required>
+                <option >audiologist</option>
+                <option >allergist</option>
+                <option >cardiologist </option>
+                <option >dentist </option>
+                <option >dermatlogist  </option>
+                <option >Gastroenterologist  </option>
+                <option >hepatologist</option>
+                <option >internists</option>
+                <option >orthopedist</option>
+            </select>
+            <br>
+            <br>
+            
+             <input type="number" placeholder="Patient Number" class="in">
+            <br>
+            <br> 
+            <input type="email" placeholder="Patient Email" class="in" required>
+            <br>
+            <br>
+            
+            <label >Male:</label>
+            <input class="label-1" type="radio" name="gender" value="Male">
+            
+           
+            <label>Female:</label>
+            <input type="radio" name="gender" value="Female">
+            <br>
+            <br>
+            <input  onclick="alert('submitted')" class="submit" type="submit" value="Submit">
+
+        </div>
+    </form>
+
+
+</body></html>
