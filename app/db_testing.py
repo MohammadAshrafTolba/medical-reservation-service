@@ -38,9 +38,9 @@ for dr in drs:
 dt1 = datetime(2020, 11, 29, 12, 2)     # year, month, day, hours, minutes
 dt2 = datetime(2020, 11, 29, 3, 2)
 
-appoint1 = Appointment(dr_id=1, start_date=dt1, end_date=dt2, status='reserved')
+appoint1 = Appointment(dr_id=1, start_date=dt1, end_date=dt2, status='free')
 dt = datetime(2020, 11, 29, 12, 6)
-appoint2 = Appointment(dr_id=2, start_date=dt1, end_date=dt2, status='reserved')
+appoint2 = Appointment(dr_id=2, start_date=dt1, end_date=dt2, status='free')
 
 db.session.add(appoint1)
 db.session.add(appoint2)
@@ -76,3 +76,17 @@ appoints = Appointment.query.all()
 print('---appoints again---')
 for appoint in appoints:
     print(appoint)
+
+"""
+p_appoint = PatientAppointment(patient_id = 1,
+                                appointment_id = 1,
+                                patient_name = "another name",
+                                patient_age = 30,
+                                patient_email = "x@domain.com",
+                                patient_phone_number = None,
+                                specialization = "dentist",
+                                appointment_type = "normal")
+
+db.session.add(p_appoint)
+db.session.commit()
+"""

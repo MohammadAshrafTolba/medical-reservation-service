@@ -8,6 +8,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.engine import Engine
 from sqlalchemy import event
 
+
 @event.listens_for(Engine, "connect")
 def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor = dbapi_connection.cursor()
@@ -77,6 +78,12 @@ class PatientAppointment(db.Model):
 
     patient_id = db.Column(db.Integer, ForeignKey('patient.id'), nullable=False, primary_key=True)
     appointment_id = db.Column(db.Integer, ForeignKey('appointment.appointment_id'), nullable=False, primary_key=True)
+    
+    patient_name = db.Column(db.String(120), nullable=False)
+    patient_email = db.Column(db.String(120), nullable=False)
+    patient_phone_number = db.Column(db.String(120))
+    patient_age = db.Column(db.Integer, nullable=False)
+    
     specialization = db.Column(db.String(20), nullable=False)
     appointment_type = db.Column(db.String(20), nullable=False)
 
