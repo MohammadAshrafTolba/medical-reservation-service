@@ -1,4 +1,5 @@
 from models import Appointment
+from doctor_handler import DoctorHandler
 from init_app import db, app
 from flask import jsonify
 from datetime import datetime
@@ -104,6 +105,25 @@ class AppointmentHandler:
                                                                           Appointment.status == 'free').order_by(extract('minute', Appointment.start_date)).first()
         
         return nearest_todays_appointment
+
+    def add_appointment(self, dr_id, start_date, end_date):
+        dr_handler = DoctorHandler()
+        dr = dr_handler.get_doctor_by_id(dr_id)
+        if dr is None:
+            return False
+        appointment = Appointment(dr_id=dr_id, start_date=start_date, end_date=end_date, status='free')
+        db.session.add(appointment)
+        db.session.commit()
+        return True
+
+    def remove_appointment(self, appointment_id):
+        if not self.appointment_exists:
+            return False
+        appointment = self.get_appointment_by_id(appointment_id)
+        db.session.delete(appointment)
+        db.session.commit()
+        return True
+
 
 # basic testing before moving to the testing team
 """
