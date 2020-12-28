@@ -1,6 +1,7 @@
 import sys
 sys.path.append('.')
 sys.path.append('./app')
+sys.path.append('../')
 
 from flask import Flask
 from flask_restful import Api
@@ -15,4 +16,4 @@ app.config.from_object(Config)
 ma = Marshmallow(app)
 db = SQLAlchemy(app)
 
-from app import routes
+#import routes

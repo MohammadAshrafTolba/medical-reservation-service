@@ -3,10 +3,10 @@ from models import Patient, Doctor, Appointment, PatientAppointment
 from datetime import datetime
 
 
-#db.drop_all()
-#db.create_all()
+db.drop_all()
+db.create_all()
 
-"""
+
 patient1 = Patient(name="patient1", age=32, email="patient1@gmail.com")
 db.session.add(patient1)
 db.session.commit()
@@ -76,4 +76,3 @@ appoints = Appointment.query.all()
 print('---appoints again---')
 for appoint in appoints:
     print(appoint)
-"""

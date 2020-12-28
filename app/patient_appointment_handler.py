@@ -1,5 +1,6 @@
 from models import PatientAppointment
 from appointment_handler import AppointmentHandler
+from patient_handler import PatientHandler
 from init_app import db, app
 from datetime import datetime
 
@@ -9,6 +10,10 @@ class PatientAppointmentHandler:
     brief   :   Handler for handling CRUD operations in the patient appointments table
     """
 
+    def patient_appointment_exists(self, patient_id, appointment_id):
+        exists = db.session.query(PatientAppointment).filter(PatientAppointment.patient_id == patient_id, PatientAppointment.appointment_id == appointment_id).scalar is not None
+        return exists
+
     def get_all_patient_appointments(self, patient_id):
         """
         brief        : receives a unique patient id and returns a list of the 
@@ -16,8 +21,11 @@ class PatientAppointmentHandler:
         constraint   : none
         throws       : none
         return       : patient_appointments -- a list of appointments of a specific patient
+                       None -- if no such patient exists
         """
-
+        p_handler = PatientHandler()
+        if not p_handler.patient_exists(patient_id):
+            return None
         patient_appointments = db.session.query(PatientAppointment).filter(PatientAppointment.patient_id == patient_id).all()
         return patient_appointments
 
@@ -35,9 +43,17 @@ class PatientAppointmentHandler:
         """
 
         appointment_handler = AppointmentHandler()
+        p_handler = PatientHandler()
+
+        if not p_handler.patient_exists(patient_id) or not appointment_handler.appointment_exists(appointment_id):
+            return False
+
         appointment = appointment_handler.get_appointment_by_id(appointment_id)
 
-        if appointment is None or appointment.status == "reserved":
+        if appointment.status == "reserved":
+            return False
+
+        if self.patient_appointment_exists(patient_id, appointment_id):
             return False
 
         patient_appointment = PatientAppointment(patient_id = patient_id,
@@ -66,10 +82,17 @@ class PatientAppointmentHandler:
                        False -- if no appointments found
         """
 
+        p_handler = PatientHandler()
+        if not p_handler.patient_exists(patient_id):
+            return False
+
         appointment_handler = AppointmentHandler()
         nearest_appointment_today = appointment_handler.get_nearest_appointment()
 
         if nearest_appointment_today is None:
+            return False
+
+        if self.patient_appointment_exists(patient_id, nearest_appointment_today.appointment_id):
             return False
 
         patient_appointment = PatientAppointment(patient_id = patient_id,
@@ -85,7 +108,6 @@ class PatientAppointmentHandler:
 
         return True
 
-
     def delete_appointment(self, patient_id, appointment_id):
         """
         brief        : cancels a specific appointment by id 
@@ -97,10 +119,12 @@ class PatientAppointmentHandler:
                        False -- if appointment couldn't be canceled
         """
         appointment_handler = AppointmentHandler()
-        appointment = appointment_handler.get_appointment_by_id(appointment_id)
+        p_handler = PatientHandler()
 
-        # check if appointment exists in the system
-        if appointment is None:
+        if not p_handler.patient_exists(patient_id) or not appointment_handler.appointment_exists(appointment_id):
+            return False
+
+        if not self.patient_appointment_exists(patient_id, appointment_id):
             return False
 
         patient_appointment = db.session.query(PatientAppointment).filter(PatientAppointment.patient_id == patient_id, 
@@ -133,7 +157,7 @@ class PatientAppointmentHandler:
         old_appointment = appointment_handler.get_appointment_by_id(old_appointment_id)
         new_appointment = appointment_handler.get_appointment_by_id(new_appointment_id)
 
-        if old_appointment is None or new_appointment is None or new_appointment.status == "reserved":
+        if not appointment_handler.appointment_exists(old_appointment_id) or not appointment_handler.appointment_exists(old_appointment_id):
             return False
 
         old_pateint_appointment = db.session.query(PatientAppointment).filter(PatientAppointment.appointment_id == old_appointment_id).first()
