@@ -1,6 +1,6 @@
 import unittest 
-from patient_appointment_handler import PatientAppointmentHandler
-from models import Appointment , Doctor , PatientAppointment
+from AppSrc.patient_appointment_handler import PatientAppointmentHandler
+from AppSrc.models import Appointment , Doctor , PatientAppointment
 
 """
 query = PatientAppointment.query.all()
