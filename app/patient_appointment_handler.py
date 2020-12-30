@@ -194,9 +194,9 @@ class PatientAppointmentHandler:
 
         return True
 
-
-# basic testing before moving to the testing team
 """
+# basic testing before moving to the testing team
+
 handler = PatientAppointmentHandler()
 
 p_appoints = handler.get_all_patient_appointments(1)

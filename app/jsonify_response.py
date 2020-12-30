@@ -13,7 +13,7 @@ def appointment_jsonify(appointments):
     return jsonify({'data' : json_response})
 
 def patient_appointments_jsonify(p_appointments):
-    if appointments is None:
+    if p_appointments is None:
         return jsonify({'data' : 'none'})
 
     patient_appointments_schema = pa_schema(many=True)

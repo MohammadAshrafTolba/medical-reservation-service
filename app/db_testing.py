@@ -1,3 +1,4 @@
+"""
 from init_app import db
 from models import Patient, Doctor, Appointment, PatientAppointment
 from datetime import datetime
@@ -77,7 +78,6 @@ print('---appoints again---')
 for appoint in appoints:
     print(appoint)
 
-"""
 p_appoint = PatientAppointment(patient_id = 1,
                                 appointment_id = 1,
                                 patient_name = "another name",
