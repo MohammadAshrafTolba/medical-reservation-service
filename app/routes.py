@@ -11,11 +11,10 @@ from doctor_handler import DoctorHandler as d_handler
 from jsonify_response import appointment_jsonify, patient_appointments_jsonify, doctors_jsonify
 
 
-"""
+
 @app.route('/')
 def create_appointment_page():
-    return render_template('/Html/NormalCreation.html')
-"""
+    return render_template('/NormalCreation.html')
 
 @app.route('/specialization')
 def get_specializations():
@@ -25,14 +24,13 @@ def get_specializations():
         resp = {'data' : 'none'}
     else:
         resp = {'data' : resp}
-    print(resp)
+    #print(resp)
     return jsonify(resp)
 
 @app.route('/doctors')
 def get_doctors():
-    print('yooooooo')
-    specialization = 'dentist'
-    #specialization = request.args['specialization']
+    #specialization = request.json['specialization']
+    specialization = request.args['specialization']
     handler = d_handler()
     _, resp = handler.get_doctors_by_specialization(specialization)
     resp = doctors_jsonify(resp)
@@ -41,21 +39,25 @@ def get_doctors():
 @app.route('/dr_appointments')
 def get_dr_appointments():
     # should get dr id here from the request body
-    dr_id = 2
     handler = a_handler()
-    resp = handler.get_specific_doctor_free_appointments(dr_id)
-    resp = appointment_jsonify(resp)
-    return resp
+    option = int(request.args['option'])
+    if option == 0:
+        dr_id = request.args['dr_id']
+        resp = handler.get_specific_doctor_free_appointments(dr_id)
+        resp = appointment_jsonify(resp)
+        return resp
 
-@app.route('/normal_appointment')
+@app.route('/normal_appointment', methods=['POST'])
 def create_normal_appointment_by_id():
-    appointment_id = 4
     patient_id = 1
-    patient_name = 'ashraf'
-    patient_age = 30
-    patient_email = 'ashraf@domain.com'
-    patient_phone_number = None
-    specialization = 'dentist'
+    appointment_id = request.form.get('appointment_id')
+    patient_name = request.form.get('patient_name')
+    patient_age = request.form.get('patient_age')
+    patient_email = request.form.get('patient_email')
+    patient_phone_number = request.form.get('patient_phone_number')
+    specialization = request.form.get('patient_phone_number')
+
+    print(patient_name, appointment_id, patient_age, patient_email, patient_phone_number, specialization)
 
     handler = pa_handler()
     resp = handler.create_normal_appointment(patient_id, appointment_id, patient_name, patient_email, patient_phone_number, patient_age, specialization)
@@ -64,11 +66,13 @@ def create_normal_appointment_by_id():
 @app.route('/urgent_appointment')
 def create_urgent_appointment():
     patient_id = 1
-    patient_name = 'ashraf'
-    patient_age = 30
-    patient_email = 'ashraf@domain.com'
-    patient_phone_number = None
-    specialization = 'dentist'
+    patient_name = request.json['patient_name']
+    patient_age = request.json['patient_age']
+    patient_email = request.json['patient_email']
+    patient_phone_number = request.json['patient_phone_number']
+    specialization = request.json['patient_phone_number']
+
+    print(patient_name, patient_age, patient_email, patient_phone_number, specialization)
 
     handler = pa_handler()
     resp = handler.create_urgent_appointment(patient_id, patient_name, patient_email, patient_phone_number, patient_age, specialization)

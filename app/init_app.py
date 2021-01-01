@@ -1,3 +1,8 @@
+import sys
+sys.path.append('.')
+sys.path.append('../')
+sys.path.append('app')
+
 from flask import Flask
 from flask_restful import Api
 from config import Config

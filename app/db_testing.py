@@ -53,15 +53,6 @@ print('---appoints---')
 for appoint in appoints:
     print(appoint)
 
-#p_appointment1 = PatientAppointment(patient_id=2, appointment_id=1, sickness="cold", appointment_type="normal")
-#db.session.add(p_appointment1)
-#db.session.commit()
-#p_appoints = PatientAppointment.query.all()
-
-#print('---p appoints---')
-#for appoint in p_appoints:
-#    print(appoint)
-
 now = datetime.now()
 
 appoint = Appointment(dr_id=2, start_date=now, end_date=now, status='free')
@@ -77,16 +68,4 @@ appoints = Appointment.query.all()
 print('---appoints again---')
 for appoint in appoints:
     print(appoint)
-
-p_appoint = PatientAppointment(patient_id = 1,
-                                appointment_id = 1,
-                                patient_name = "another name",
-                                patient_age = 30,
-                                patient_email = "x@domain.com",
-                                patient_phone_number = None,
-                                specialization = "dentist",
-                                appointment_type = "normal")
-
-db.session.add(p_appoint)
-db.session.commit()
 """
