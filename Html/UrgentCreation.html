@@ -86,6 +86,23 @@
         </div>
     </form>
 <script>
+     window.onload = function getIllness() {
+            $.getJSON("/specialization", function(result) {
+                var xhr=new XMLHttpRequest();
+                var arr = result["data"];
+                 if(xhr.readyState===4 &&xhr.status===200){
+                var select = document.getElementById("illness-spec")
+                for (var i = 0; i < arr.length; i++) {
+                    var spec = arr[i];
+                    var el = document.createElement("option");
+                    el.textContent = spec;
+                    el.value = spec;
+                    select.appendChild(el);
+                }
+                 }
+            });
+        }
+
     function myfun(){
      
                alert("submit");

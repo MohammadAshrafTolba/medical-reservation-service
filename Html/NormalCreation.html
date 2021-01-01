@@ -61,7 +61,7 @@
             <br>
             <h6 class="Date">Doctor Name</h6>
 
-            <select id="Doctors-Name" class="Times" id="text-1" required>
+            <select id="Doctors_Name" class="Times" id="text-1" required>
                 <option>fol</option>
             </select>
             <br>
@@ -96,9 +96,15 @@
     </form>
 
     <script>
+        
+
+
+        
         window.onload = function getIllness() {
             $.getJSON("/specialization", function(result) {
+                var xhr=new XMLHttpRequest();
                 var arr = result["data"];
+                 if(xhr.readyState===4 &&xhr.status===200){
                 var select = document.getElementById("illness-spec")
                 for (var i = 0; i < arr.length; i++) {
                     var spec = arr[i];
@@ -107,14 +113,19 @@
                     el.value = spec;
                     select.appendChild(el);
                 }
+                 }
             });
         }
 
-        function getDoctors(illnessSpecification) {
-            $.getJSON('/doctors', {
+
+
+            
+           $.getJSON('/doctors', {
                 specialization: illnessSpecification
             }, function(result) {
+               var xhr=new XMLHttpRequest();
                 var arr = result["data"];
+                if(xhr.readyState===4 &&xhr.status===200){
                 if (arr !== "none" && arr.length) {
                     var select = document.getElementById("Doctors-Name")
                     for (var i = 0; i < arr.length; i++) {
@@ -125,14 +136,17 @@
                         select.appendChild(el);
                     }
                 }
+                }
             });
-        }
+        
 
         function getDate(DrDate) {
             $.getJSON('/appointments', {
                 doctors: DrDate
             }, function(result) {
+                var xhr=new XMLHttpRequest();
                 var arr = result["data"];
+                 if(xhr.readyState===4 &&xhr.status===200){
                 if (arr !== "none" && arr.length) {
                     var select = document.getElementById("Date_time")
                     for (var i = 0; i < arr.length; i++) {
@@ -143,6 +157,7 @@
                         select.appendChild(el);
                     }
                 }
+                 }
             });
         }
 
