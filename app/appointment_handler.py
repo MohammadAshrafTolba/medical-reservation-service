@@ -20,7 +20,7 @@ class AppointmentHandler:
         return       : appointment (can be null if no appointment by id found)
         """
 
-        appointment = db.session.query(Appointment).filter(Appointment.appointment_id == appointment_id).first()
+        appointment = db.session.query(Appointment).filter(Appointment.appointment_id == appointment_id).scalar()
         return appointment
 
     def get_all_free_appointments(self):
