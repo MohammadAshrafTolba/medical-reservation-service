@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Urgent-From</title>
-    <link rel="stylesheet" href="../../static/Css/UrgentCreation.css">
+    <link rel="stylesheet" href="../Css/UrgentCreation.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 
@@ -11,10 +11,10 @@
     <header>
         <nav>
             <div class="wrapper">
-                <img class="image" src="../../static/imgs/WhatsApp%20Image%202020-12-24%20at%207.50.50%20PM.jpeg">
+                <img class="image" src="../imgs/WhatsApp%20Image%202020-12-24%20at%207.50.50%20PM.jpeg">
                 <ul class="nav-links">
                     <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="Home.html">Home</a></li>
                     <li>
                         <a href="#" class="desktop-item">Creation</a>
 
@@ -39,7 +39,7 @@
     <div class="Urgent-appointment ">
         <h1>Urgent appointment </h1>
     </div>
-    <form>
+    <form onsubmit="myfun()">
         <div class="form-1">
             <input type="text" placeholder="First Name for patient" class="in" required>
             <br>
@@ -81,10 +81,33 @@
             <input type="radio" name="gender" value="Female">
             <br>
             <br>
-            <input  onclick="alert('submitted')" class="submit" type="submit" value="Submit">
+            <input   class="submit" type="submit" value="Submit">
 
         </div>
     </form>
+<script>
+     window.onload = function getIllness() {
+            $.getJSON("/specialization", function(result) {
+                var xhr=new XMLHttpRequest();
+                var arr = result["data"];
+                 if(xhr.readyState===4 &&xhr.status===200){
+                var select = document.getElementById("illness-spec")
+                for (var i = 0; i < arr.length; i++) {
+                    var spec = arr[i];
+                    var el = document.createElement("option");
+                    el.textContent = spec;
+                    el.value = spec;
+                    select.appendChild(el);
+                }
+                 }
+            });
+        }
 
+    function myfun(){
+     
+               alert("submit");
+           
+        }
+    </script>
 
 </body></html>

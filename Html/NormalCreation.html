@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Normal-From</title>
-    <link rel="stylesheet" href="../../static/Css/NormalCreation.css">
+    <link rel="stylesheet" href="../Css/NormalCreation.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="../static/JS/jquery.js"></script>
 </head>
@@ -13,10 +13,10 @@
     <header>
         <nav>
             <div class="wrapper">
-                <img class="image" src="../../static/imgs/WhatsApp%20Image%202020-12-24%20at%207.50.50%20PM.jpeg">
+                <img class="image" src="../imgs/WhatsApp%20Image%202020-12-24%20at%207.50.50%20PM.jpeg">
                 <ul class="nav-links">
                     <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="Home.html">Home</a></li>
                     <li>
                         <a href="#" class="desktop-item">Creation</a>
 
@@ -41,64 +41,70 @@
     <div class="Normal-appointment ">
         <h1>Normal appointment </h1>
     </div>
-    <form>
+    <form onsubmit="myfun()">
         <div class="form-1">
-            <input type="text" placeholder="First Name for patient" class="in" required>
+            <input type="text" placeholder="First Name for patient" class="in" id="text-1" required>
             <br>
             <br>
-            <input type="text" placeholder="Last Name for patient" class="in" required>
+            <input type="text" placeholder="Last Name for patient" class="in" id="text-1" required>
             <br>
             <br>
-            <input type="number" placeholder="Patient age" class="in" required>
+            <input type="number" placeholder="Patient age" class="in" id="text-1" required>
             <br>
             <br>
             <h6 class="Date">Illness Specification</h6>
 
-            <select id="illness-spec" class="Illness" onchange="getDoctors(this.value)" required>
+            <select id="illness-spec" class="Illness" onchange="getDoctors(this.value)" id="text-1" required>
                 <option>fol</option>
             </select>
             <br>
             <br>
             <h6 class="Date">Doctor Name</h6>
 
-            <select id="Doctors-Name" class="Times" required>
+            <select id="Doctors_Name" class="Times" id="text-1" required>
                 <option>fol</option>
             </select>
             <br>
             <br>
             <h6 class="Date">D a t e & T i m e</h6>
 
-            <select id="Date_time" onchange="getDate(this.value)" class="Times" required>
+            <select id="Date_time" id="text-1" onchange="getDate(this.value)" class="Times" required>
                 <option>fol</option>
             </select>
             <br>
             <br>
 
 
-            <input type="number" placeholder="Patient Number" class="in">
+            <input  type="number" placeholder="Patient Number" class="in">
             <br>
             <br>
-            <input type="email" placeholder="Patient Email" class="in" required>
+            <input id="text-1" type="email" placeholder="Patient Email" class="in" required>
             <br>
             <br>
 
             <label>Male:</label>
-            <input class="label-1" type="radio" name="gender" value="Male">
+            <input id="text-1" class="label-1" type="radio" name="gender" value="Male">
 
 
             <label>Female:</label>
-            <input type="radio" name="gender" value="Female">
+            <input id="text-1" type="radio" name="gender" value="Female">
             <br>
             <br>
-            <input onclick="alert('submitted')" class="submit" id="submit" type="submit" value="Submit">
+            <input onclick="myfun" class="submit" id="submit" type="submit" value="Submit" >
 
         </div>
     </form>
 
     <script>
+        
+
+
+        
         window.onload = function getIllness() {
             $.getJSON("/specialization", function(result) {
+                var xhr=new XMLHttpRequest();
                 var arr = result["data"];
+                 if(xhr.readyState===4 &&xhr.status===200){
                 var select = document.getElementById("illness-spec")
                 for (var i = 0; i < arr.length; i++) {
                     var spec = arr[i];
@@ -107,14 +113,19 @@
                     el.value = spec;
                     select.appendChild(el);
                 }
+                 }
             });
         }
 
-        function getDoctors(illnessSpecification) {
-            $.getJSON('/doctors', {
+
+
+            
+           $.getJSON('/doctors', {
                 specialization: illnessSpecification
             }, function(result) {
+               var xhr=new XMLHttpRequest();
                 var arr = result["data"];
+                if(xhr.readyState===4 &&xhr.status===200){
                 if (arr !== "none" && arr.length) {
                     var select = document.getElementById("Doctors-Name")
                     for (var i = 0; i < arr.length; i++) {
@@ -125,14 +136,17 @@
                         select.appendChild(el);
                     }
                 }
+                }
             });
-        }
+        
 
         function getDate(DrDate) {
             $.getJSON('/appointments', {
                 doctors: DrDate
             }, function(result) {
+                var xhr=new XMLHttpRequest();
                 var arr = result["data"];
+                 if(xhr.readyState===4 &&xhr.status===200){
                 if (arr !== "none" && arr.length) {
                     var select = document.getElementById("Date_time")
                     for (var i = 0; i < arr.length; i++) {
@@ -143,17 +157,17 @@
                         select.appendChild(el);
                     }
                 }
+                 }
             });
         }
 
 
-        var form = document.getElementsByClassName("form-1")[0];
-
-        function handleForm(event) {
-            event.preventDefault();
+        function myfun(){
+     
+               alert("submit");
+           
         }
-        form.addEventListener('submit', handleForm);
-
+        
     </script>
 
 </body></html>
