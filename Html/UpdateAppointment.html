@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Update Form</title>
+    <link rel="stylesheet" href="../code/UpdateAppointment.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="wrapper">
+                <img class="image" src="../imgs/WhatsApp%20Image%202020-12-24%20at%207.50.50%20PM.jpeg">
+                <ul class="nav-links">
+                    <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="#" class="desktop-item">Creation</a>
+
+                        <label for="showDrop" class="mobile-item">Creation</label>
+                        <ul class="drop-menu">
+                            <li><a href="UrgentCreation.html">Urgent From</a></li>
+                            <li><a href="NormalCreation.html">Normal Form</a></li>
+
+                        </ul>
+                    </li>
+                    <li><a href="UpdateAppointment.html">Update</a>
+                    <li><a href="#">Cancel</a></li>
+                </ul>
+                <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+            </div>
+        </nav>
+    </header>
+
+    <div class="Update-Appointment">
+        <center>
+            <h1>Update Appointment </h1>
+        </center>
+    </div>
+    <form onsubmit="submitFun()">
+        <div class="form-1">
+
+            <input type="text" placeholder="Patient name" class="in" id="name" readonly>
+            <br>
+            <br>
+            <input type="email" placeholder="Patient Email" class="in" id="email" readonly>
+            <br>
+            <br>
+            <input type="number" placeholder="Patient age" class="in" id="age" readonly>
+            <br>
+            <br>
+            <input type="number" placeholder="Patient Number" class="in" id="patientNumber" readonly>
+            <br>
+            <br>
+            <h6 class="Date">Specializations</h6>
+            
+            <select class="Illness" onchange="getDoctors(this.value)" id="illness" readonly>
+                <option> </option>
+            </select>
+            <br>
+            <br>
+             <h6 class="Date">Doctors</h6>
+            
+            <select class="Doctors" id="doctors" onchange="option(0,this.value)">
+                <option> </option>
+            </select>
+            <br>
+            <br>
+            <h6 class="Date">D a t e & T i m e</h6>
+
+            <select class="Times" id="times" onchange="getDate(this.value)" onchange="option(1,this.value)">
+                <option> </option>
+            </select>
+            <br>
+            <br>
+            <input onclick="submitFun" class="update" type="submit" value="Update" id="submit">
+
+            <div id="myModal" class="modal">
+
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p id="modalText"></p>
+                </div>
+
+            </div>
+        </div>
+    </form>
+    <script src="../Code/UpdateAppointment.js"></script>
+</body>
+
+</html>

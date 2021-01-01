@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Normal-From</title>
+    <link rel="stylesheet" href="../Css/NormalCreation.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="../static/JS/jquery.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="wrapper">
+                <img class="image" src="../imgs/WhatsApp%20Image%202020-12-24%20at%207.50.50%20PM.jpeg">
+                <ul class="nav-links">
+                    <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+                    <li><a href="Home.html">Home</a></li>
+                    <li>
+                        <a href="#" class="desktop-item">Creation</a>
+
+                        <label for="showDrop" class="mobile-item">Creation</label>
+                        <ul class="drop-menu">
+                            <li><a href="UrgentCreation.html">Urgent From</a></li>
+                            <li><a href="NormalCreation.html">Normal Form</a></li>
+
+                        </ul>
+                    </li>
+                    <li><a href="#">Update</a></li>
+                    <li><a href="#">Cancel</a></li>
+
+
+                </ul>
+                <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="Normal-appointment ">
+        <h1>Normal appointment </h1>
+    </div>
+    <form onsubmit="myfun()">
+        <div class="form-1">
+            <input type="text" placeholder="First Name for patient" class="in" id="text-1" required>
+            <br>
+            <br>
+            <input type="text" placeholder="Last Name for patient" class="in" id="text-1" required>
+            <br>
+            <br>
+            <input type="number" placeholder="Patient age" class="in" id="text-1" required>
+            <br>
+            <br>
+            <h6 class="Date">Illness Specification</h6>
+
+            <select id="illness-spec" class="Illness" onchange="getDoctors(this.value)" id="text-1" required>
+                <option>fol</option>
+            </select>
+            <br>
+            <br>
+            <h6 class="Date">Doctor Name</h6>
+
+            <select id="Doctors_Name" class="Times" id="text-1" required>
+                <option>fol</option>
+            </select>
+            <br>
+            <br>
+            <h6 class="Date">D a t e & T i m e</h6>
+
+            <select id="Date_time" id="text-1" onchange="getDate(this.value)" class="Times" required>
+                <option>fol</option>
+            </select>
+            <br>
+            <br>
+
+
+            <input  type="number" placeholder="Patient Number" class="in">
+            <br>
+            <br>
+            <input id="text-1" type="email" placeholder="Patient Email" class="in" required>
+            <br>
+            <br>
+
+            <label>Male:</label>
+            <input id="text-1" class="label-1" type="radio" name="gender" value="Male">
+
+
+            <label>Female:</label>
+            <input id="text-1" type="radio" name="gender" value="Female">
+            <br>
+            <br>
+            <input onclick="myfun" class="submit" id="submit" type="submit" value="Submit" >
+
+        </div>
+    </form>
+
+    <script>
+        
+
+
+        
+        window.onload = function getIllness() {
+            $.getJSON("/specialization", function(result) {
+                var xhr=new XMLHttpRequest();
+                var arr = result["data"];
+                 if(xhr.readyState===4 &&xhr.status===200){
+                var select = document.getElementById("illness-spec")
+                for (var i = 0; i < arr.length; i++) {
+                    var spec = arr[i];
+                    var el = document.createElement("option");
+                    el.textContent = spec;
+                    el.value = spec;
+                    select.appendChild(el);
+                }
+                 }
+            });
+        }
+
+
+
+            
+           $.getJSON('/doctors', {
+                specialization: illnessSpecification
+            }, function(result) {
+               var xhr=new XMLHttpRequest();
+                var arr = result["data"];
+                if(xhr.readyState===4 &&xhr.status===200){
+                if (arr !== "none" && arr.length) {
+                    var select = document.getElementById("Doctors-Name")
+                    for (var i = 0; i < arr.length; i++) {
+                        var spec = arr[i];
+                        var el = document.createElement("option");
+                        el.textContent = "ID: " + spec["id"] + " - name: " + spec["name"] + " - specialization: " + spec["specialization"];
+                        el.value = spec;
+                        select.appendChild(el);
+                    }
+                }
+                }
+            });
+        
+
+        function getDate(DrDate) {
+            $.getJSON('/appointments', {
+                doctors: DrDate
+            }, function(result) {
+                var xhr=new XMLHttpRequest();
+                var arr = result["data"];
+                 if(xhr.readyState===4 &&xhr.status===200){
+                if (arr !== "none" && arr.length) {
+                    var select = document.getElementById("Date_time")
+                    for (var i = 0; i < arr.length; i++) {
+                        var dr = arr[i];
+                        var el = document.createElement("option");
+                        el.textContent = "ID: " + dr["id"] + " - name: " + dr["name"] + " - doctors: " + dr["doctors"];
+                        el.value = dr;
+                        select.appendChild(el);
+                    }
+                }
+                 }
+            });
+        }
+
+
+        function myfun(){
+     
+               alert("submit");
+           
+        }
+        
+    </script>
+
+</body></html>
