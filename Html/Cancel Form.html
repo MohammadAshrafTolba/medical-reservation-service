@@ -85,8 +85,8 @@
         window.onload = function() {
             //todo patientId?
             var patientId = "1";
-//            getAppointments(patientId);
-            mockGetAppointments();
+            getAppointments(patientId);
+            //            mockGetAppointments();
         };
 
         var dropdownList = document.getElementById("dropdown");
@@ -109,7 +109,7 @@
          * */
         getAppointments = function(patientId) {
             var xhr = new XMLHttpRequest();
-            var url = "/patient_appointments";
+            var url = "/retrieve_patient_appointments";
 
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
@@ -120,7 +120,7 @@
                         var appendData = "";
                         for (var i in json.data) {
                             var opt = document.createElement('option');
-                            opt.appendChild(document.createTextNode(json.data[i].appointment_id));
+                            opt.appendChild(document.createTextNode('Appointment ' + json.data[i].appointment_id));
                             opt.value = json.data[i].appointment_id;
                             dropdownList.appendChild(opt);
                         }
@@ -205,8 +205,8 @@
         // When the user clicks the button, open the modal 
         btn.onclick = function() {
 
-            //            sendCancelRequest();
-            mockCancelRequest();
+            sendCancelRequest();
+            //            mockCancelRequest();
 
             // When the user clicks on <span> (x), close the modal
             span.onclick = function() {
