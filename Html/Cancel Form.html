@@ -129,7 +129,7 @@
             };
 
             var data = JSON.stringify({
-                "patient_id": patientId
+//                "patient_id": patientId
             });
             xhr.send(data);
         }
@@ -180,10 +180,10 @@
 
             //todo change patientId
             var patientId = 1
-            var appointmentId = dropdownList.options[dropdownList.selectedIndex].text;
+            var appointmentId = dropdownList.options[dropdownList.selectedIndex].value;
 
             var data = JSON.stringify({
-                "patient_id": patientId,
+//                "patient_id": patientId,
                 "appointment_id": appointmentId
             });
 
