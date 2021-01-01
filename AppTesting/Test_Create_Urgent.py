@@ -2,26 +2,32 @@
 import unittest
 from datetime import datetime
 
-from AppSrc.init_app import db
-from AppSrc.patient_appointment_handler import PatientAppointmentHandler
-from AppSrc.models import Patient, Doctor, Appointment, PatientAppointment
+from init_app import db
+from patient_appointment_handler import PatientAppointmentHandler
+from appointment_handler import AppointmentHandler
+#from models import Patient, Doctor, Appointment, PatientAppointment
 
 
 class test_create_urgent(unittest.TestCase):
-    now = datetime.now()
 
-    appoint = Appointment(dr_id=2, start_date=now, end_date=now, status='free')
-    db.session.add(appoint)
-    db.session.commit()
-    now = now.replace(hour=4)
-    appoint = Appointment(dr_id=2, start_date=now, end_date=now, status='free')
-    db.session.add(appoint)
-    db.session.commit()
 
 
 
 #passed
     def test_001(self):
-        obj=PatientAppointmentHandler
-        answer=obj.create_urgent_appointment(self,1,"dermatologist")
+        appointment_id = 600
+        now = datetime.now()
+
+        a_handler = AppointmentHandler()
+        a_handler.add_appointment(appointment_id, 1, now, now)
+       
+        pa_handler = PatientAppointmentHandler()
+        answer = pa_handler.create_urgent_appointment(1, "mohamed", "mohamed@gmail.com", 1235, 35, "dermatologist")
+        
+        a_handler.remove_appointment(appointment_id)
+
         self.assertTrue(answer)
+
+if __name__ == "__main__":
+    unittest.main()
+
