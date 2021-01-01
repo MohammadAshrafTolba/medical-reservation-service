@@ -106,12 +106,16 @@ class AppointmentHandler:
         
         return nearest_todays_appointment
 
-    def add_appointment(self, dr_id, start_date, end_date):
+    def add_appointment(self, appointment_id, dr_id, start_date, end_date):
         dr_handler = DoctorHandler()
         dr = dr_handler.get_doctor_by_id(dr_id)
         if dr is None:
             return False
-        appointment = Appointment(dr_id=dr_id, start_date=start_date, end_date=end_date, status='free')
+        if appointment_id is None:
+            appointment = Appointment(dr_id=dr_id, start_date=start_date, end_date=end_date, status='free')
+        else:
+            appointment = Appointment(appointment_id=appointment_id, dr_id=dr_id, start_date=start_date, end_date=end_date, status='free')
+        
         db.session.add(appointment)
         db.session.commit()
         return True
