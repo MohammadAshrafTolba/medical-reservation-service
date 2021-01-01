@@ -1,59 +1,38 @@
-"""import unittest
-from patient_appointment_handler import PatientAppointmentHandler
-
-class MyTestCase(unittest.TestCase):
-
-    def test_createapp(self):
-
-        answer = PatientAppointmentHandler.create_normal_appointment(self, 123, 159, "cold");
-        self.assertEqual(answer, True);
 
 
-if __name__ == '__main__':
-    unittest.main()
-    """
 import unittest
 from datetime import datetime
 
-from AppSrc.init_app import db
-from AppSrc.patient_appointment_handler import PatientAppointmentHandler
-from AppSrc.models import Patient, Doctor, Appointment, PatientAppointment
-
-
+from app.init_app import db
+from app.patient_appointment_handler import PatientAppointmentHandler
+from app.appointment_handler import AppointmentHandler
+#from app.models import Patient, Doctor, Appointment, PatientAppointment
 
 
 class test_create(unittest.TestCase):
 
-
 #passed
     def test_create_normal_app001(self):
-        obj = PatientAppointmentHandler
-        answer = obj.create_normal_appointment(self,15, 9, "cardiologist")
-        self.assertEqual(True,answer)
+        
+        # specifying appointment_id that most probably isn't in the system
+        appointment_id = 500
+        now = datetime.now()
+
+        a_handler = AppointmentHandler()
+        a_handler.add_appointment(appointment_id, 1, now, now)
+        
+        pa_handler = PatientAppointmentHandler()
+        
+        # parameters needed for the create_normal_appointment_function
+        # patient_id, appointment_id, patient_name, patient_email, patient_phone_number, patient_age, specialization
+
+        answer = pa_handler.create_normal_appointment(1, appointment_id,"Ahmed","ahmed@gmail.com", 123, 25, "cardiologist")
+        
+        # remove the appointment created in order for the test to run OK every time
+        a_handler.remove_appointment(appointment_id)
+
+        self.assertEqual(True, answer)
 
 
-
-
-#passed
-#invalid app_ID
-    def test_create_normal_app002(self):
-        obj1 = PatientAppointmentHandler
-        answer1 = obj1.create_normal_appointment(self,19, 22, "cardiologist")
-        self.assertEqual(False,answer1)
-
-
-
-
-
-
-
-''' 
-#ffffffff
-    # invalid Patient_ID
-   def test_create_normal_app002(self):
-        obj = PatientAppointmentHandler
-        answer = obj.create_normal_appointment(self,20, 8, "cardiologist")
-        self.assertEqual(False,answer)
-
-'''
-
+if __name__ == '__main__':
+    unittest.main()
