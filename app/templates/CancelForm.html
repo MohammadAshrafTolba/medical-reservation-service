@@ -1,9 +1,9 @@
 <html>
 
-<head>
+<head> 
     <meta charset="UTF-8">
-    <!--    <title>Normal-From</title>-->
-    <link rel="stylesheet" href="../Css/Cancel%20From.css">
+    <title>Cancel Appointment</title>
+    <link rel="stylesheet" href="../static/css/Cancel%20From.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 
@@ -12,27 +12,31 @@
     <header>
         <nav>
             <div class="wrapper">
-                <img class="image" src="../imgs/WhatsApp%20Image%202020-12-24%20at%207.50.50%20PM.jpeg">
-                <ul class="nav-links">
-                    <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
-                    <li><a href="./Home.html">Home</a></li>
-                    <li>
-                        <a href="#" class="desktop-item">Creation</a>
-
-                        <label for="showDrop" class="mobile-item">Creation</label>
-                        <ul class="drop-menu">
-                            <li><a href="UrgentCreation.html">Urgent From</a></li>
-                            <li><a href="NormalCreation.html">Normal Form</a></li>
-
-                        </ul>
-                    </li>
-                    <li><a href="#">Update</a></li>
-                    <li><a href="./Cancel%20Form.html">Cancel</a></li>
-
-
-                </ul>
-                <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
-            </div>
+                <img class="image" src="../static/imgs/WhatsApp%20Image%202020-12-24%20at%207.50.50%20PM.jpeg">
+                 <ul class="nav-links">
+                     <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+                     <li><a href="./Home.html">Home</a></li>
+                     <li>
+                         <a href="#" class="desktop-item">Creation</a>
+                         
+                         <label for="showDrop" class="mobile-item">Creation</label>
+                         <ul class="drop-menu">
+                             <li><a href="./NormalCreation.html">Normal Appointment</a></li>
+                             <li><a href="./UrgentCreation.html">Urgent Appointment</a></li>
+                         </ul>
+                     </li>
+                     <li>
+                         <a href="#" class="desktop-item">Update</a>
+                         <label for="showDrop" class="mobile-item">Update</label>
+                         <ul class="drop-menu">
+                             <li><a href="./update_appointment_date.html">Update Appointment Date</a></li>
+                             <li><a href="./update_whole_appointment.html">Update Appointment's Dr</a></li>
+                         </ul>
+                     </li>
+                     <li><a href="./CancelForm.html">Cancel Appointment</a></li>
+                 </ul>
+                 <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+             </div>
         </nav>
     </header>
 
@@ -45,7 +49,7 @@
             <form> <br> <br>
                 <label for="appointment" style="font-size:20px; color: white"><b> Choose An Appointment:</b></label>
                 <br> <br>
-                <select style="width:200px;" id="dropdown">
+                <select style="min-width: 100px;" id="dropdown">
                     <!--<option></option>
                     <option></option>
                     <option></option>
@@ -91,7 +95,6 @@
 
         var dropdownList = document.getElementById("dropdown");
 
-
         mockGetAppointments = function() {
             var opt = document.createElement('option');
             opt.appendChild(document.createTextNode('appointment 1'));
@@ -109,31 +112,35 @@
          * */
         getAppointments = function(patientId) {
             var xhr = new XMLHttpRequest();
-            var url = "/retrieve_patient_appointments";
+            var url = "/retrieve_patient_normal_appointments";
 
-            xhr.open("POST", url, true);
+            xhr.open("GET", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
+                    //console.log(xhr.responseText)
                     var json = JSON.parse(xhr.responseText);
-                    if (json.data != 'none') {
-                        var appendData = "";
-                        for (var i in json.data) {
+                    json = json['data'];
+                    if (json != 'none') {
+                        var appoint = "";
+                        //var appendData = "";
+                        for (var i = 0; i < json.length; ++i) {
+                            appoint = json[i];
+                            //console.log(appoint);
                             var opt = document.createElement('option');
-                            opt.appendChild(document.createTextNode('Appointment ' + json.data[i].appointment_id));
-                            opt.value = json.data[i].appointment_id;
+                            opt.textContent = 'appointment id: ' + appoint['appointment_id'] + " - patient's name: " + appoint['patient_name'] + " - dr's spec: " + appoint['specialization'];
+                            opt.value = appoint['appointment_id'];
                             dropdownList.appendChild(opt);
                         }
                     }
                 }
             };
-
+            
             var data = JSON.stringify({
-//                "patient_id": patientId
+                //"patient_id": patientId
             });
             xhr.send(data);
         }
-
 
         // Get the modal
         var modal = document.getElementById("myModal");
@@ -161,34 +168,38 @@
             var url1 = "/cancel_appointment";
             xhr1.open("POST", url1, true);
             xhr1.setRequestHeader("Content-Type", "application/json");
+
+            //todo change patientId
+            //var patientId = 1
+            var appointmentId = dropdownList.options[dropdownList.selectedIndex].value;
+
+            var data = JSON.stringify({
+              //"patient_id": patientId,
+                "appointment_id": appointmentId
+            });
+            xhr1.send(data);
+
             xhr1.onreadystatechange = function() {
                 if (xhr1.readyState === 4 && xhr1.status === 200) {
                     var json = JSON.parse(xhr1.responseText);
                     //todo json.data
-                    if (json.data != 'none') {
+                    if (json.status === 'True') {
+                        alert("Appointment cancelled");
+                        dropdownList.remove(dropdownList.selectedIndex);
+                        /*
                         var res = json.data;
                         modalText.textContent = res;
                         modal.style.display = "block";
                         setTimeout(function() {
                             window.location.href = "./home.html";
                         }, 4000);
+                        */
+                    } else {
+                        alert("Couldn't cancel appointment");
                     }
                 }
             }
-
-
-
-            //todo change patientId
-            var patientId = 1
-            var appointmentId = dropdownList.options[dropdownList.selectedIndex].value;
-
-            var data = JSON.stringify({
-//                "patient_id": patientId,
-                "appointment_id": appointmentId
-            });
-
-            xhr1.send(data);
-
+            
         }
 
 

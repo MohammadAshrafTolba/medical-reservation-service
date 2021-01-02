@@ -1,9 +1,10 @@
+from init_app import db, app
 from models import Appointment
 from doctor_handler import DoctorHandler
-from init_app import db, app
 from flask import jsonify
 from datetime import datetime
 from sqlalchemy.sql import extract
+
 
 class AppointmentHandler:
 
@@ -47,6 +48,15 @@ class AppointmentHandler:
         free_appointments = db.session.query(Appointment).filter(Appointment.status == 'free', Appointment.dr_id == dr_id).all()
         return free_appointments
 
+    def get_specific_dr_appointments_by_appointment_id(self, appointment_id):
+
+        if appointment_id == None or not self.appointment_exists(appointment_id):
+            return None
+
+        appointment = self.get_appointment_by_id(appointment_id)
+        dr_appointments = self.get_specific_doctor_free_appointments(appointment.dr_id)
+        return dr_appointments
+
     def change_appointment_status(self, appointment_id):
         """
         brief        : a utility function to toggle appointment's status (free->reserved amd vice versa)
@@ -87,7 +97,7 @@ class AppointmentHandler:
 
     def get_nearest_appointment(self):
         """
-        brief        : gets nearest appointment available today (time wise)
+        brief        : gets nearest appointment available today (time wise) with specific specialization
         param        : none
         constraint   : none
         throws       : none

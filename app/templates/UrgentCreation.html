@@ -1,97 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Urgent-From</title>
-    <link rel="stylesheet" href="../Css/UrgentCreation.css">
+    <title>Urgent appointment</title>
+    <link rel="stylesheet" href="../static/css/NormalCreation.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 
 <body>
+
+    <script src="../static/JS/jquery.js"></script>
+    <script src="../static/NormalCreation.js"></script>
+
     <header>
         <nav>
             <div class="wrapper">
-                <img class="image" src="../imgs/WhatsApp%20Image%202020-12-24%20at%207.50.50%20PM.jpeg">
-                <ul class="nav-links">
-                    <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
-                    <li><a href="Home.html">Home</a></li>
-                    <li>
-                        <a href="#" class="desktop-item">Creation</a>
-
-                        <label for="showDrop" class="mobile-item">Creation</label>
-                        <ul class="drop-menu">
-                            <li><a href="UrgentCreation.html">Urgent From</a></li>
-                            <li><a href="NormalCreation.html">Normal Form</a></li>
-
-                        </ul>
-                    </li>
-                    <li><a href="#">Update</a></li>
-                    <li><a href="#">Cancel</a></li>
-
-
-                </ul>
-                <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
-            </div>
+                <img class="image" src="../static/imgs/WhatsApp%20Image%202020-12-24%20at%207.50.50%20PM.jpeg">
+                 <ul class="nav-links">
+                     <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+                     <li><a href="./Home.html">Home</a></li>
+                     <li>
+                         <a href="#" class="desktop-item">Creation</a>
+                         
+                         <label for="showDrop" class="mobile-item">Creation</label>
+                         <ul class="drop-menu">
+                             <li><a href="./NormalCreation.html">Normal Appointment</a></li>
+                             <li><a href="./UrgentCreation.html">Urgent Appointment</a></li>
+                         </ul>
+                     </li>
+                     <li>
+                         <a href="#" class="desktop-item">Update</a>
+                         <label for="showDrop" class="mobile-item">Update</label>
+                         <ul class="drop-menu">
+                             <li><a href="./update_appointment_date.html">Update Appointment Date</a></li>
+                             <li><a href="./update_whole_appointment.html">Update Appointment's Dr</a></li>
+                         </ul>
+                     </li>
+                     <li><a href="./CancelForm.html">Cancel Appointment</a></li>
+                 </ul>
+                 <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+             </div>
         </nav>
     </header>
 
 
-    <div class="Urgent-appointment ">
-        <h1>Urgent appointment </h1>
+    <div class="Normal-appointment ">
+        <h1>Normal appointment </h1>
     </div>
-    <form onsubmit="myfun()">
-        <div class="form-1">
-            <input type="text" placeholder="First Name for patient" class="in" required>
-            <br>
-            <br>
-            <input type="text" placeholder="Last Name for patient" class="in" required>
-            <br>
-            <br>
-            <input type="number" placeholder="Patient age" class="in" required> 
-            <br>
-            <br>
-         <h6 class="Date">Illness Specification</h6>
 
-            <select class="Illness" required>
-                <option >audiologist</option>
-                <option >allergist</option>
-                <option >cardiologist </option>
-                <option >dentist </option>
-                <option >dermatlogist  </option>
-                <option >Gastroenterologist  </option>
-                <option >hepatologist</option>
-                <option >internists</option>
-                <option >orthopedist</option>
+    <form>
+        <div class="form-1">
+            <input type="text" placeholder="  First Name for patient" class="in" id="first-name" required>
+            <br>
+            <br>
+            <input type="text" placeholder="  Last Name for patient" class="in" id="last-name" required>
+            <br>
+            <br>
+            <input type="number" placeholder="  Patient age" class="in" id="patient-age" required>
+            <br>
+            <br>
+            <h6 class="Date">Illness Specification</h6>
+
+            <select id="illness-spec" class="Illness" required>
+                <option value="" selected>Choose a secialization</option>
             </select>
             <br>
             <br>
-            
-             <input type="number" placeholder="Patient Number" class="in">
-            <br>
-            <br> 
-            <input type="email" placeholder="Patient Email" class="in" required>
+            <input type="number" placeholder="  Patient Number" class="in" id="patient-number">
             <br>
             <br>
-            
-            <label >Male:</label>
-            <input class="label-1" type="radio" name="gender" value="Male">
-            
-           
-            <label>Female:</label>
-            <input type="radio" name="gender" value="Female">
+            <input id="email" type="email" placeholder="  Patient Email" class="in" id="email" required>
             <br>
             <br>
-            <input   class="submit" type="submit" value="Submit">
 
+            <label>Male:</label>
+            <input id="text-1" class="label-1" type="radio" name="gender" value="Male">
+
+
+            <label>Female:</label>
+            <input id="text-1" type="radio" name="gender" value="Female">
+            <br>
+            <br>
+            <input type="button" class="submit" id="submit-normal" value="Submit" >
         </div>
     </form>
-<script>
-     window.onload = function getIllness() {
+
+    <script src="../static/JS/jquery.js"></script>
+    <script>
+        window.onload = function getIllness() {
             $.getJSON("/specialization", function(result) {
-                var xhr=new XMLHttpRequest();
                 var arr = result["data"];
-                 if(xhr.readyState===4 &&xhr.status===200){
-                var select = document.getElementById("illness-spec")
+                console.log(arr);
+                var select = document.getElementById("illness-spec");
                 for (var i = 0; i < arr.length; i++) {
                     var spec = arr[i];
                     var el = document.createElement("option");
@@ -99,15 +100,39 @@
                     el.value = spec;
                     select.appendChild(el);
                 }
-                 }
             });
         }
 
-    function myfun(){
-     
-               alert("submit");
-           
-        }
+        document.getElementById("submit-normal").onclick = function bookNormalAppointment() {
+            var specialization = $("#illness-spec :selected").val();
+            var firstName = $("#first-name").val();
+            var lastName = $("#last-name").val();
+            var age = $("#patient-age").val();
+            var email = $("#email").val();
+            var number = $("#patient-number").val();
+
+            var fullName = firstName + " " + lastName;
+            
+            var requestParams = {'patient_name' : fullName,
+                                'patient_age' : age,
+                                'patient_email' : email,
+                                'patient_phone_number' : number,
+                                'specialization' : specialization};
+
+            $.post('/urgent_appointment', requestParams, function(response) {
+                var status = response['status'];
+                console.log(status);
+                if(status === 'True') {
+                    alert("Appointment booked");
+                } else {
+                    alert("Couldn't book appointment");
+                }
+                location.reload();
+            });
+
+            }
     </script>
 
-</body></html>
+
+</body>
+</html>

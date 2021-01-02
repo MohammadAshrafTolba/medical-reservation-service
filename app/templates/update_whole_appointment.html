@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update appointment date</title>
+    <link rel="stylesheet" href="../static/css/Appointments.css">
+</head>
+
+<body>
+    <header>
+
+        <nav>
+            <div class="wrapper">
+                <img class="image" src="../static/imgs/WhatsApp%20Image%202020-12-24%20at%207.50.50%20PM.jpeg">
+                 <ul class="nav-links">
+                     <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+                     <li><a href="./Home.html">Home</a></li>
+                     <li>
+                         <a href="#" class="desktop-item">Creation</a>
+                         
+                         <label for="showDrop" class="mobile-item">Creation</label>
+                         <ul class="drop-menu">
+                             <li><a href="./NormalCreation.html">Normal Appointment</a></li>
+                             <li><a href="./UrgentCreation.html">Urgent Appointment</a></li>
+                         </ul>
+                     </li>
+                     <li>
+                         <a href="#" class="desktop-item">Update</a>
+                         <label for="showDrop" class="mobile-item">Update</label>
+                         <ul class="drop-menu">
+                             <li><a href="./update_appointment_date.html">Update Appointment Date</a></li>
+                             <li><a href="./update_whole_appointment.html">Update Appointment's Dr</a></li>
+                         </ul>
+                     </li>
+                     <li><a href="./CancelForm.html">Cancel Appointment</a></li>
+                 </ul>
+                 <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+             </div>
+        </nav>
+    </header>
+    <div class="Update">
+        <div class="User-Appointments">
+            <h1>User Appointments </h1>
+        </div>
+        <form>
+            <div class="form-1" id=appointments>
+                <label for="Appointments">Choose an appointment to change :</label>
+                <br>
+                <br>
+                <br>
+                <div class="dropdown">
+                    <select id="appointment-num" class="dropbtn" required>
+                        <option value="" selected>Choose an appointment</option>
+                    </select>
+                    <br>
+                    <br>
+
+                    <label for="Appointments">Doctor's name :</label>
+
+                    <select id="Doctors-Name" class="dropbtn" id="text-1" required>
+                
+                    </select>
+                    <br>
+                    <br>
+                    <label for="Appointments">Alternative appointments :</label>
+                    <select id="other-dates" class="dropbtn" required>
+
+                    </select>
+                </div>
+                <br>
+                <br>
+                <input id="update" class="update" type="button" value="Update">
+            </div>
+        </form>
+    </div>
+
+    <script src="../static/JS/jquery.js"></script>
+    <script>
+
+        var dropdownList = document.getElementById("appointment-num");
+
+        window.onload = function(patientId) {
+            var xhr = new XMLHttpRequest();
+            var url = "/retrieve_patient_normal_appointments";
+
+            xhr.open("GET", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    json = json['data'];
+                    if (json != 'none') {
+                        var appoint = "";
+                        for (var i = 0; i < json.length; ++i) {
+                            appoint = json[i];
+                            var opt = document.createElement('option');
+                            opt.textContent = 'appointment id: ' + appoint['appointment_id'] + " - patient's name: " + appoint['patient_name'] + " - dr's spec: " + appoint['specialization'];
+                            opt.value = appoint['appointment_id'];
+                            dropdownList.appendChild(opt);
+                        }
+                    }
+                }
+            };
+            var data = JSON.stringify({
+                //"patient_id": patientId
+            });
+            xhr.send(data);
+        }
+
+        var appointment_id = null;
+
+        $('#appointment-num').on('change', function() {
+            $('#Doctors-Name').empty().append('<option value="" selected>Choose an appointment</option>');
+            appointment_id = $("#appointment-num :selected").val();
+            if(appointment_id.trim() !== "") {
+                var reqParams = {"appointment_id": appointment_id};
+                $.getJSON('/doctors', reqParams, function(result) {
+                    var arr = result["data"];
+                    console.log(arr);
+                    if(arr !== "none" && arr.length) { 
+                        var select = document.getElementById("Doctors-Name");
+                        for(var i = 0; i < arr.length; i++) {
+                            var doctor = arr[i];
+                            var el = document.createElement("option");
+                            el.textContent = "ID: " + doctor["id"] + " - name: " + doctor["name"];
+                            el.value = doctor["id"];
+                            select.appendChild(el);
+                        }
+                    }
+                });
+            }
+        });
+
+        $('#Doctors-Name').on('change', function() {
+            $('#other-dates').empty().append('<option value="" selected>Choose an appointment</option>');
+            var dr_id = $("#Doctors-Name :selected").val();
+            if(dr_id.trim() !== "") {
+                var reqParams = {"option" : 1, "dr_id": dr_id};
+                $.getJSON('/dr_appointments', reqParams, function(result) {
+                    var arr = result["data"];
+                    console.log(arr);
+                    if(arr !== "none" && arr.length) { 
+                        var select = document.getElementById("Doctors-Name");
+                        for(var i = 0; i < arr.length; i++) {
+                            var appointment = arr[i];
+                            var el = document.createElement("option");
+
+                            el.textContent = "ID: " + appointment["appointment_id"] + " - start date: " + appointment["start_date"] + " - end date: " + appointment["end_date"];
+                            el.value = appointment["appointment_id"];
+                            select.appendChild(el);
+                        }
+                    }
+                });
+            }
+        });
+
+        document.getElementById("update").onclick = function() {
+            var new_appointment_id = $("#other-dates :selected").val();
+            if(new_appointment_id !== null || new_appointment_id !== "") {
+                var url = "/update_appointment";
+                var req_params = {"old_appointment_id" : appointment_id,
+                                  "new_appointment_id": new_appointment_id};
+                $.post(url, req_params, function(response) {
+                    var status = response['status'];
+                    if(status === "True") {
+                        alert("appointment updated");
+                    } else {
+                        alert("appointment couldn't be updated");
+                    }
+                    location.reload();
+                });
+            }
+        }
+        
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Normal-From</title>
+    <title>Normal appointment</title>
     <link rel="stylesheet" href="../static/css/NormalCreation.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
@@ -17,26 +17,30 @@
         <nav>
             <div class="wrapper">
                 <img class="image" src="../static/imgs/WhatsApp%20Image%202020-12-24%20at%207.50.50%20PM.jpeg">
-                <ul class="nav-links">
-                    <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
-                    <li><a href="Home.html">Home</a></li>
-                    <li>
-                        <a href="#" class="desktop-item">Creation</a>
-
-                        <label for="showDrop" class="mobile-item">Creation</label>
-                        <ul class="drop-menu">
-                            <li><a href="UrgentCreation.html">Urgent From</a></li>
-                            <li><a href="NormalCreation.html">Normal Form</a></li>
-
-                        </ul>
-                    </li>
-                    <li><a href="#">Update</a></li>
-                    <li><a href="#">Cancel</a></li>
-
-
-                </ul>
-                <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
-            </div>
+                 <ul class="nav-links">
+                     <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+                     <li><a href="./Home.html">Home</a></li>
+                     <li>
+                         <a href="#" class="desktop-item">Creation</a>
+                         
+                         <label for="showDrop" class="mobile-item">Creation</label>
+                         <ul class="drop-menu">
+                             <li><a href="./NormalCreation.html">Normal Appointment</a></li>
+                             <li><a href="./UrgentCreation.html">Urgent Appointment</a></li>
+                         </ul>
+                     </li>
+                     <li>
+                         <a href="#" class="desktop-item">Update</a>
+                         <label for="showDrop" class="mobile-item">Update</label>
+                         <ul class="drop-menu">
+                             <li><a href="./update_appointment_date.html">Update Appointment Date</a></li>
+                             <li><a href="./update_whole_appointment.html">Update Appointment's Dr</a></li>
+                         </ul>
+                     </li>
+                     <li><a href="./CancelForm.html">Cancel Appointment</a></li>
+                 </ul>
+                 <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+             </div>
         </nav>
     </header>
 
@@ -116,11 +120,11 @@
             });
         }
 
-        $('#illness-spec').on('change',function() {
+        $('#illness-spec').on('change', function() {
             $('#Doctors-Name').empty().append('<option value="" selected>Choose a doctor</option>');
             var specialization = $("#illness-spec :selected").val();
             if(specialization.valueOf().trim() !== "") {
-                $.getJSON('/doctors', {specialization: specialization}, function(result){
+                $.getJSON('/doctors', {'option': 0, 'specialization' : specialization}, function(result){
                     var arr = result["data"];
                     console.log(arr);
                     if(arr !== "none" && arr.length) { 
@@ -128,8 +132,6 @@
                         for(var i = 0; i < arr.length; i++) {
                             var doctor = arr[i];
                             var el = document.createElement("option");
-                            //console.log(spec);
-                            //.log(spec["name"]);
                             el.textContent = "ID: " + doctor["id"] + " - name: " + doctor["name"];
                             el.value = doctor["id"];
                             select.appendChild(el);
@@ -191,8 +193,7 @@
                 }
                 location.reload();
             });
-
-            }
+        }
     </script>
 
 

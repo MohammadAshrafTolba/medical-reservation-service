@@ -1,7 +1,7 @@
+from init_app import db, app
 from models import PatientAppointment
 from appointment_handler import AppointmentHandler
 from patient_handler import PatientHandler
-from init_app import db, app
 from datetime import datetime
 
 
@@ -17,7 +17,7 @@ class PatientAppointmentHandler:
 
     def get_all_patient_appointments(self, patient_id):
         """
-        brief        : receives a unique patient id and returns a list of the 
+        brief        : receives a unique patient id and returns a list of all patient appointments
         param        : patient_id -- int -- unique id of the patient 
         constraint   : none
         throws       : none
@@ -28,6 +28,21 @@ class PatientAppointmentHandler:
         if not p_handler.patient_exists(patient_id):
             return None
         patient_appointments = db.session.query(PatientAppointment).filter(PatientAppointment.patient_id == patient_id).all()
+        return patient_appointments
+
+    def get_all_patient_normal_appointments(self, patient_id):
+        """
+        brief        : receives a unique patient id and returns a list of the patient's normal appointments
+        param        : patient_id -- int -- unique id of the patient 
+        constraint   : none
+        throws       : none
+        return       : patient_appointments -- a list of appointments of a specific patient
+                       None -- if no such patient exists
+        """
+        p_handler = PatientHandler()
+        if not p_handler.patient_exists(patient_id):
+            return None
+        patient_appointments = db.session.query(PatientAppointment).filter(PatientAppointment.patient_id == patient_id, PatientAppointment.appointment_type == "normal").all()
         return patient_appointments
 
     def create_normal_appointment(self, patient_id, appointment_id, patient_name, patient_email, patient_phone_number, patient_age, specialization):
@@ -172,7 +187,7 @@ class PatientAppointmentHandler:
         old_appointment = appointment_handler.get_appointment_by_id(old_appointment_id)
         new_appointment = appointment_handler.get_appointment_by_id(new_appointment_id)
 
-        if not appointment_handler.appointment_exists(old_appointment_id) or not appointment_handler.appointment_exists(old_appointment_id):
+        if not appointment_handler.appointment_exists(old_appointment_id) or not appointment_handler.appointment_exists(new_appointment_id):
             return False
 
         old_pateint_appointment = db.session.query(PatientAppointment).filter(PatientAppointment.appointment_id == old_appointment_id).first()

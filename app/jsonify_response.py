@@ -19,6 +19,10 @@ def patient_appointments_jsonify(p_appointments):
     patient_appointments_schema = pa_schema(many=True)
     json_response = patient_appointments_schema.dump(p_appointments)
 
+    for (pa_json, pa_query) in zip(json_response, p_appointments):
+        pa_json['patient_id'] = pa_query.patient_id
+        pa_json['appointment_id'] = pa_query.appointment_id
+    
     return jsonify({'data' : json_response})
 
 def doctors_jsonify(doctors):
@@ -29,4 +33,3 @@ def doctors_jsonify(doctors):
     json_response = doctors_schema.dump(doctors)
 
     return jsonify({'data' : json_response})
-

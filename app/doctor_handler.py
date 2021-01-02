@@ -10,7 +10,7 @@ class DoctorHandler:
     def get_doctors_by_specialization(self, specialization):
         if specialization not in specializations:
             return False, None
-        doctors = db.session.query(Doctor).filter(Doctor.specialization ==specialization).all()
+        doctors = db.session.query(Doctor).filter(Doctor.specialization == specialization).all()
         return True, doctors
 
     def get_doctor_by_id(self, dr_id):
