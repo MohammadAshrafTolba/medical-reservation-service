@@ -15,6 +15,18 @@ class PatientAppointmentHandler:
         exists = query is not None
         return exists
 
+    def get_patient_appointment_by_id(self, appointment_id):
+        """
+        brief        : gets a specific appointment from the Appointments table by id 
+        param        : appointment_id -- int -- unique id for the selected appointment 
+        constraint   : none
+        throws       : none
+        return       : appointment (can be null if no appointment by id found)
+        """
+
+        appointment = db.session.query(PatientAppointment).filter(PatientAppointment.appointment_id == appointment_id).scalar()
+        return appointment
+
     def get_all_patient_appointments(self, patient_id):
         """
         brief        : receives a unique patient id and returns a list of all patient appointments

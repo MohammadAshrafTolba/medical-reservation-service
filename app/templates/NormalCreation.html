@@ -11,7 +11,6 @@
 <body>
 
     <script src="../static/JS/jquery.js"></script>
-    <script src="../static/NormalCreation.js"></script>
 
     <header>
         <nav>
@@ -29,14 +28,7 @@
                              <li><a href="./UrgentCreation.html">Urgent Appointment</a></li>
                          </ul>
                      </li>
-                     <li>
-                         <a href="#" class="desktop-item">Update</a>
-                         <label for="showDrop" class="mobile-item">Update</label>
-                         <ul class="drop-menu">
-                             <li><a href="./update_appointment_date.html">Update Appointment Date</a></li>
-                             <li><a href="./update_whole_appointment.html">Update Appointment's Dr</a></li>
-                         </ul>
-                     </li>
+                     <li><a href="./UpdateForm.html">Update Appointment</a></li>
                      <li><a href="./CancelForm.html">Cancel Appointment</a></li>
                  </ul>
                  <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
@@ -49,7 +41,7 @@
         <h1>Normal appointment </h1>
     </div>
 
-    <form>
+    <form onsubmit="bookNormalAppointment()">
         <div class="form-1">
             <input type="text" placeholder="  First Name for patient" class="in" id="first-name" required>
             <br>
@@ -99,7 +91,7 @@
             <input id="text-1" type="radio" name="gender" value="Female">
             <br>
             <br>
-            <input type="button" class="submit" id="submit-normal" value="Submit" >
+            <button type="submit" class="submit" id="submit-normal" value="Submit">Submit</button>
         </div>
     </form>
 
@@ -163,7 +155,8 @@
             }
         });
 
-        document.getElementById("submit-normal").onclick = function bookNormalAppointment() {
+        function bookNormalAppointment() {
+            event.preventDefault();
             var specialization = $("#illness-spec :selected").val();
             var appointment_id = $("#Date-time :selected").val();
             console.log(appointment_id);

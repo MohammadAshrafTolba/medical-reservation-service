@@ -29,19 +29,9 @@ def urgent_creation_page():
 def cancel_appointment_page():
     return render_template('CancelForm.html')
 
-@app.route('/update_appointment_date.html')
+@app.route('/UpdateForm.html')
 def get_update_scenario_1():
-    return render_template('update_appointment_date.html')
-
-@app.route('/update_whole_appointment.html')
-def get_update_scenarion_2():
-    return render_template('update_whole_appointment.html')
-
-@app.route('/update_scenario_1.html')
-def _update_scenaro_1_page():
-    appointment_id = request.args['appointment_id']
-    print(appointment_id)
-    return render_template('update_scenario_1.html')
+    return render_template('UpdateForm.html')
 
 @app.route('/specialization')
 def get_specializations():
@@ -54,8 +44,18 @@ def get_specializations():
     #print(resp)
     return jsonify(resp)
 
+@app.route('/dr_by_appointment_id')
+def get_dr_by_appointment_id():
+    appointment_id = request.args['appointment_id']
+    handler = a_handler()
+    if not handler.appointment_exists(appointment_id):
+        return jsonify({'data' : 'none'})
+    appointment = handler.get_appointment_by_id(appointment_id)
+    return jsonify({'data' : appointment.dr_id})
+
 @app.route('/doctors')
 def get_doctors():
+    patient_id = 1
     option = int(request.args['option'])
     resp = None
     if option == 0:
@@ -63,13 +63,14 @@ def get_doctors():
         print(specialization)
         handler = d_handler()
         _, resp = handler.get_doctors_by_specialization(specialization)
-        print(resp)
+        #print(resp)
     elif option == 1:
         appointment_id = request.args['appointment_id']
-        handler = a_handler()
-        if appointment_id is None or not handler.appointment_exists(appointment_id):
+        handler = pa_handler()
+        if appointment_id is None or not handler.patient_appointment_exists(patient_id, appointment_id):
             return jsonify({'data' : 'none'})
-        appointment = handler.get_appointment_by_id(appointment_id)
+        appointment = handler.get_patient_appointment_by_id(appointment_id)
+        #print(appointment)
         handler = d_handler()
         _, resp = handler.get_doctors_by_specialization(appointment.specialization)
 
