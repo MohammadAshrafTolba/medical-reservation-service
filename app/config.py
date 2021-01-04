@@ -1,8 +1,7 @@
 import os
 
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-basedir = basedir.replace('\\', '/')
+basedir = os.path.abspath(os.path.dirname(__file__)).replace('\\', '/')
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'some-secret-string-pattern'
