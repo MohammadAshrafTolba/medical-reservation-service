@@ -13,13 +13,12 @@ for i in range(1,9):
     appoint = Appointment(dr_id=dr.id, start_date=now, end_date=now, status='free')
     db.session.add(appoint)
     db.session.commit()
-    now = now.replace(hour = 4)
+    now = now.replace(hour = now.hour + 8)
     appoint = Appointment(dr_id=dr.id, start_date=now, end_date=now, status='free')
     db.session.add(appoint)
     db.session.commit()
-"""
 
-"""
+
 db.drop_all()
 db.create_all()
 
