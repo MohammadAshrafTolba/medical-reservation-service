@@ -109,6 +109,7 @@ def create_normal_appointment_by_id():
 @app.route('/urgent_appointment', methods=['POST'])
 def create_urgent_appointment():
     patient_id = 1
+    print("hereeee")
     patient_name = request.form.get('patient_name')
     patient_age = request.form.get('patient_age')
     patient_email = request.form.get('patient_email')

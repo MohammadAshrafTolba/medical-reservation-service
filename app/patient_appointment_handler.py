@@ -122,15 +122,18 @@ class PatientAppointmentHandler:
 
         p_handler = PatientHandler()
         if not p_handler.patient_exists(patient_id):
+            print("here1")
             return False
 
         appointment_handler = AppointmentHandler()
-        nearest_appointment_today = appointment_handler.get_nearest_appointment()
+        nearest_appointment_today = appointment_handler.get_nearest_appointment(specialization)
 
         if nearest_appointment_today is None:
+            print("here2")
             return False
 
         if self.patient_appointment_exists(patient_id, nearest_appointment_today.appointment_id):
+            print("here3")
             return False
 
         patient_appointment = PatientAppointment(patient_id = patient_id,

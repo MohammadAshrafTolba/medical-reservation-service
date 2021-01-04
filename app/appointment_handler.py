@@ -1,5 +1,5 @@
 from init_app import db, app
-from models import Appointment
+from models import Appointment, Doctor
 from doctor_handler import DoctorHandler
 from flask import jsonify
 from datetime import datetime
@@ -95,7 +95,7 @@ class AppointmentHandler:
                                                                  extract('minute', Appointment.start_date) == start_date.minute)
         return free_appointments
 
-    def get_nearest_appointment(self):
+    def get_nearest_appointment(self, specialization):
         """
         brief        : gets nearest appointment available today (time wise) with specific specialization
         param        : none
@@ -106,14 +106,27 @@ class AppointmentHandler:
         
         now = datetime.now()        
 
+        nearest_todays_appointment = Appointment.query\
+                                   .join(Doctor, Appointment.dr_id == Doctor.id)\
+                                   .filter(Doctor.specialization == specialization,
+                                           Appointment.status == 'free',
+                                           extract('year', Appointment.start_date) == now.year,
+                                           extract('month', Appointment.start_date) == now.month,
+                                           extract('day', Appointment.start_date) == now.day,
+                                           extract('hour', Appointment.start_date) >= now.hour,
+                                           extract('minute', Appointment.start_date) >= now.minute).order_by(extract('minute', Appointment.start_date)).first()
+        
+
         # get all free appointments available later today
-        nearest_todays_appointment = db.session.query(Appointment).filter(extract('year', Appointment.start_date) == now.year,
+        """
+        nearest_todays_appointment = db.session.query(Appointment).filter(Appointment.specialization == specialization,
+                                                                          Appointment.status == 'free',
+                                                                          extract('year', Appointment.start_date) == now.year,
                                                                           extract('month', Appointment.start_date) == now.month,
                                                                           extract('day', Appointment.start_date) == now.day,
                                                                           extract('hour', Appointment.start_date) >= now.hour,
-                                                                          extract('minute', Appointment.start_date) >= now.minute,
-                                                                          Appointment.status == 'free').order_by(extract('minute', Appointment.start_date)).first()
-        
+                                                                          extract('minute', Appointment.start_date) >= now.minute).order_by(extract('minute', Appointment.start_date)).first()
+        """
         return nearest_todays_appointment
 
     def add_appointment(self, appointment_id, dr_id, start_date, end_date):

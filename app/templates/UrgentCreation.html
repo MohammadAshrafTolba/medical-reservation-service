@@ -96,6 +96,8 @@
         }
 
         function urgentCreate() {
+            event.preventDefault();
+
             var specialization = $("#illness-spec :selected").val();
             var firstName = $("#first-name").val();
             var lastName = $("#last-name").val();
@@ -110,6 +112,8 @@
                                 'patient_email' : email,
                                 'patient_phone_number' : number,
                                 'specialization' : specialization};
+            console.log("here")
+            console.log(requestParams);
 
             $.post('/urgent_appointment', requestParams, function(response) {
                 var status = response['status'];
