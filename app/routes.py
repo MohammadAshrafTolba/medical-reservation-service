@@ -120,6 +120,15 @@ def create_urgent_appointment():
     resp = handler.create_urgent_appointment(patient_id, patient_name, patient_email, patient_phone_number, patient_age, specialization)
     return jsonify({'status' : str(resp)})
 
+@app.route('/retrieve_all_patient_appointments')
+def get_all_patient_appointment():
+    patient_id = 1
+
+    handler = pa_handler()
+    resp = handler.get_all_patient_appointments(patient_id)
+    resp = patient_appointments_jsonify(resp)
+    return resp
+
 @app.route('/retrieve_patient_normal_appointments')
 def get_all_patient_appointment():
     patient_id = 1

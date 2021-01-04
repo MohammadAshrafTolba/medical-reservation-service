@@ -106,7 +106,7 @@
          * */
         getAppointments = function(patientId) {
             var xhr = new XMLHttpRequest();
-            var url = "/retrieve_patient_normal_appointments";
+            var url = "/retrieve_all_patient_appointments";
 
             xhr.open("GET", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
