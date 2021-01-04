@@ -130,7 +130,7 @@ def get_all_patient_appointment():
     return resp
 
 @app.route('/retrieve_patient_normal_appointments')
-def get_all_patient_appointment():
+def get_all_patient_normal_appointment():
     patient_id = 1
 
     handler = pa_handler()
