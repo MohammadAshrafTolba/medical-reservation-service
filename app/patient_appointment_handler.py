@@ -207,7 +207,7 @@ class PatientAppointmentHandler:
 
         old_pateint_appointment = db.session.query(PatientAppointment).filter(PatientAppointment.appointment_id == old_appointment_id).first()
         
-        if old_pateint_appointment == None:
+        if old_pateint_appointment == None or old_pateint_appointment.appointment_type == "urgent":
             return False
 
         # create the new appointment (with the new id)
