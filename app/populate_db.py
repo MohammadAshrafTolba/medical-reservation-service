@@ -2,11 +2,26 @@
 from init_app import db
 from models import Patient, Doctor, Appointment, PatientAppointment
 from datetime import datetime
+from doctor_handler import DoctorHandler as d_handler
 
 
+
+for i in range(1,9):
+    handler = d_handler()
+    dr = handler.get_doctor_by_id(i)
+    now = datetime.now()
+    appoint = Appointment(dr_id=dr.id, start_date=now, end_date=now, status='free')
+    db.session.add(appoint)
+    db.session.commit()
+    now = now.replace(hour = 4)
+    appoint = Appointment(dr_id=dr.id, start_date=now, end_date=now, status='free')
+    db.session.add(appoint)
+    db.session.commit()
+"""
+
+"""
 db.drop_all()
 db.create_all()
-
 
 patient1 = Patient(name="patient1", age=32, email="patient1@gmail.com")
 db.session.add(patient1)

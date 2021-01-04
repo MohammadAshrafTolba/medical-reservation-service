@@ -34,14 +34,15 @@
     </header>
 
     <div class="a">
-        <h1 style="color:#161616;" ;>
+        <h1 style="color:#161616; font-size:40px;">
             CANCEL APPOINTMENT
         </h1>
 
+        
         <div class="form" id="cancelForm">
-            <form> <br> <br>
-                <label for="appointment" style="font-size:20px; color: white"><b> Choose An Appointment:</b></label>
-                <br> <br>
+            <form onsubmit="sendCancelRequest()"> <br> <br>
+                <label for="appointment" style="font-size:20px; color: white"><b> Choose An Appointment :</b></label>
+                <br> <br> <br>
                 <select style="min-width: 100px;" id="dropdown">
                     <!--<option></option>
                     <option></option>
@@ -52,8 +53,8 @@
                     <option></option>
                     <option></option>-->
                 </select>
-                <br><br><br><br><br><br><br><br><br><br><br>
-                <input type="submit" id="submit" value="Cancel Appointment" style="width: 200px; background-color: #FA8072; color: white; padding: 14px 40px;">
+                <br><br>
+                <button type="submit" id="submit" value="Cancel Appointment" style="width: 200px; background-color: #FA8072; color: white; padding: 14px 40px;">Cancel Appointment</button>
             </form>
         </div>
     </div>
@@ -156,7 +157,8 @@
          * */
 
 
-        sendCancelRequest = function() {
+        function sendCancelRequest() {
+            var json = null;
             var xhr1 = new XMLHttpRequest();
             var url1 = "/cancel_appointment";
             xhr1.open("POST", url1, true);
@@ -171,31 +173,35 @@
                 "appointment_id": appointmentId
             });
             xhr1.send(data);
-
             xhr1.onreadystatechange = function() {
                 if (xhr1.readyState === 4 && xhr1.status === 200) {
-                    var json = JSON.parse(xhr1.responseText);
+                    json = JSON.parse(xhr1.responseText);
                     //todo json.data
-                    if (json.status === 'True') {
-                        alert("Appointment cancelled");
-                        dropdownList.remove(dropdownList.selectedIndex);
-                        /*
-                        var res = json.data;
-                        modalText.textContent = res;
-                        modal.style.display = "block";
-                        setTimeout(function() {
-                            window.location.href = "./home.html";
-                        }, 4000);
-                        */
+                    console.log(json)
+
+                    if (json['status'] === 'True') {
+                    console.log("here1");
+                    alert("Appointment cancelled");
+                    dropdownList.remove(dropdownList.selectedIndex);
+                    /*
+                    var res = json.data;
+                    modalText.textContent = res;
+                    modal.style.display = "block";
+                    setTimeout(function() {
+                        window.location.href = "./home.html";
+                    }, 4000);
+                    */
                     } else {
+                        console.log("here2");
                         alert("Couldn't cancel appointment");
                     }
+                    location.reload();
                 }
             }
             
         }
 
-
+        /*
         mockCancelRequest = function() {
             var appointmentId = dropdownList.options[dropdownList.selectedIndex].text;
             modalText.textContent = appointmentId + " has been cancelled. redirecting in 4 seconds...";
@@ -205,7 +211,7 @@
             }, 4000);
         }
 
-
+        
         // When the user clicks the button, open the modal 
         btn.onclick = function() {
 
@@ -224,6 +230,7 @@
                 }
             }
         }
+        */
 
     </script>
 

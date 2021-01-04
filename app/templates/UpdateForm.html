@@ -53,8 +53,8 @@
                     <label style="font-size: medium;">patient id: </label> <label style="font-size: medium;" id="p-id"></label> <br>
                     <label style="font-size: medium;">patient name: </label> <label style="font-size: medium;" id="p-name"></label> <br>
                     <label style="font-size: medium;">patient age: </label> <label style="font-size: medium;" id="p-age"></label> <br>
-                    <label style="font-size: medium;">patient email: </label> <label style="font-size: medium;" id="p-email">patient email: </label> <br>
-                    <label style="font-size: medium;">patient phone number: </label> <label style="font-size: medium;" id="p-number">patient email: </label> <br>
+                    <label style="font-size: medium;">patient email: </label> <label style="font-size: medium;" id="p-email"></label> <br>
+                    <label style="font-size: medium;">patient phone number: </label> <label style="font-size: medium;" id="p-number"></label> <br>
                     
                     <br>
                     
@@ -148,6 +148,16 @@
             document.getElementById("p-number").innerHTML = appointment['patient_phone_number'];
         }
         
+        function clearAppointmentInfo() {
+            document.getElementById("a-id").innerHTML = "";
+            document.getElementById("a-spec").innerHTML = "";
+            document.getElementById("p-id").innerHTML = "";
+            document.getElementById("p-name").innerHTML = "";
+            document.getElementById("p-age").innerHTML = "";
+            document.getElementById("p-email").innerHTML = "";
+            document.getElementById("p-number").innerHTML = "";
+        }
+
         initAltDates = $('#appointment-num').on('change', function() {
             appointment_id = $("#appointment-num :selected").val();
             $('#other-dates').empty().append('<option value="" selected>Choose an appointment</option>');
@@ -165,7 +175,7 @@
                 });
             } else {
                  checkbox.disabled = true;
-
+                 clearAppointmentInfo();
             }
         });
 

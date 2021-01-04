@@ -84,11 +84,11 @@
             <br>
 
             <label>Male:</label>
-            <input id="text-1" class="label-1" type="radio" name="gender" value="Male">
+            <input id="text-1" class="label-1" type="radio" name="gender" value="Male" required>
 
 
             <label>Female:</label>
-            <input id="text-1" type="radio" name="gender" value="Female">
+            <input id="text-1" type="radio" name="gender" value="Female" required>
             <br>
             <br>
             <button type="submit" class="submit" id="submit-normal" value="Submit">Submit</button>
@@ -164,6 +164,7 @@
             var lastName = $("#last-name").val();
             var age = $("#patient-age").val();
             var email = $("#email").val();
+            console.log('email: ' + email);
             var number = $("#patient-number").val();
             //var gender = document.getElementsByName("gender").value;
             var fullName = firstName + " " + lastName;
