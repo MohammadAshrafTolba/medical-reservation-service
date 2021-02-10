@@ -105,28 +105,17 @@ class AppointmentHandler:
         """
         
         now = datetime.now()        
-
         nearest_todays_appointment = Appointment.query\
-                                   .join(Doctor, Appointment.dr_id == Doctor.id)\
-                                   .filter(Doctor.specialization == specialization,
-                                           Appointment.status == 'free',
-                                           extract('year', Appointment.start_date) == now.year,
-                                           extract('month', Appointment.start_date) == now.month,
-                                           extract('day', Appointment.start_date) == now.day,
-                                           extract('hour', Appointment.start_date) >= now.hour,
-                                           extract('minute', Appointment.start_date) >= now.minute).order_by(extract('minute', Appointment.start_date)).first()
+                                    .join(Doctor, Appointment.dr_id == Doctor.id)\
+                                    .filter(Doctor.specialization == specialization,
+                                            Appointment.status == 'free',
+                                            extract('year', Appointment.start_date) == now.year,
+                                            extract('month', Appointment.start_date) == now.month,
+                                            extract('day', Appointment.start_date) == now.day,
+                                            extract('hour', Appointment.start_date) >= now.hour)\
+                                    .order_by(extract('minute', Appointment.start_date))\
+                                    .first()
         
-
-        # get all free appointments available later today
-        """
-        nearest_todays_appointment = db.session.query(Appointment).filter(Appointment.specialization == specialization,
-                                                                          Appointment.status == 'free',
-                                                                          extract('year', Appointment.start_date) == now.year,
-                                                                          extract('month', Appointment.start_date) == now.month,
-                                                                          extract('day', Appointment.start_date) == now.day,
-                                                                          extract('hour', Appointment.start_date) >= now.hour,
-                                                                          extract('minute', Appointment.start_date) >= now.minute).order_by(extract('minute', Appointment.start_date)).first()
-        """
         return nearest_todays_appointment
 
     def add_appointment(self, appointment_id, dr_id, start_date, end_date):
