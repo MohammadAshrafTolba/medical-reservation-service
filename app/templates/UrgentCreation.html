@@ -78,55 +78,16 @@
         </div>
     </form>
 
-    <script src="../static/JS/jquery.js"></script>
-    <script>
-        window.onload = function getIllness() {
-            $.getJSON("/specialization", function(result) {
-                var arr = result["data"];
-                console.log(arr);
-                var select = document.getElementById("illness-spec");
-                for (var i = 0; i < arr.length; i++) {
-                    var spec = arr[i];
-                    var el = document.createElement("option");
-                    el.textContent = spec;
-                    el.value = spec;
-                    select.appendChild(el);
-                }
-            });
-        }
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-        function urgentCreate() {
-            event.preventDefault();
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-            var specialization = $("#illness-spec :selected").val();
-            var firstName = $("#first-name").val();
-            var lastName = $("#last-name").val();
-            var age = $("#patient-age").val();
-            var email = $("#email").val();
-            var number = $("#patient-number").val();
-
-            var fullName = firstName + " " + lastName;
-            
-            var requestParams = {'patient_name' : fullName,
-                                'patient_age' : age,
-                                'patient_email' : email,
-                                'patient_phone_number' : number,
-                                'specialization' : specialization};
-            console.log("here")
-            console.log(requestParams);
-
-            $.post('/urgent_appointment', requestParams, function(response) {
-                var status = response['status'];
-                console.log(status);
-                if(status === 'True') {
-                    alert("Appointment booked");
-                } else {
-                    alert("Couldn't book appointment");
-                }
-                location.reload();
-            });
-        }
-    </script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+    <script src= "../static/scripts/UrgentCreationScript.js"></script>
 
 
 </body>

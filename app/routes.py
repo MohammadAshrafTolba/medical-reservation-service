@@ -11,7 +11,6 @@ from doctor_handler import DoctorHandler as d_handler
 from jsonify_response import appointment_jsonify, patient_appointments_jsonify, doctors_jsonify
 
 
-
 @app.route('/')
 @app.route('/Home.html')
 def home_page():
@@ -30,7 +29,7 @@ def cancel_appointment_page():
     return render_template('CancelForm.html')
 
 @app.route('/UpdateForm.html')
-def get_update_scenario_1():
+def get_update_appointment_page():
     return render_template('UpdateForm.html')
 
 @app.route('/specialization')
@@ -41,7 +40,7 @@ def get_specializations():
         resp = {'data' : 'none'}
     else:
         resp = {'data' : resp}
-    #print(resp)
+
     return jsonify(resp)
 
 @app.route('/dr_by_appointment_id')
@@ -63,14 +62,12 @@ def get_doctors():
         print(specialization)
         handler = d_handler()
         _, resp = handler.get_doctors_by_specialization(specialization)
-        #print(resp)
     elif option == 1:
         appointment_id = request.args['appointment_id']
         handler = pa_handler()
         if appointment_id is None or not handler.patient_appointment_exists(patient_id, appointment_id):
             return jsonify({'data' : 'none'})
         appointment = handler.get_patient_appointment_by_id(appointment_id)
-        #print(appointment)
         handler = d_handler()
         _, resp = handler.get_doctors_by_specialization(appointment.specialization)
 
@@ -144,14 +141,12 @@ def update_appointment():
     new_appointment_id = request.form.get('new_appointment_id')
     handler = pa_handler()
     resp = handler.update_appointment(old_appointment_id, new_appointment_id)
-    print(resp)
     return jsonify({'status' : str(resp)})
 
 @app.route('/cancel_appointment', methods=['POST'])
 def cancel_appointment():
     patient_id = 1
     appointment_id = request.get_json(force=True).get('appointment_id')
-    print(appointment_id)
     handler = pa_handler()
     resp = handler.delete_appointment(patient_id, appointment_id)
     return jsonify({'status' : str(resp)})
